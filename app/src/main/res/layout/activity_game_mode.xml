@@ -5,31 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.example.andrej.seabattle.MainActivity">
+    tools:context="com.example.andrej.seabattle.GameModeActivity">
 
-    <Button
-        android:id="@+id/button_startGame"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/holo_blue_light"
-        android:padding="25dp"
-        android:text="@string/btn_startGame"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.502"
+        android:layout_weight="1"
+        android:background="@android:color/background_light"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.309" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:text="@string/tte_gameMode"
+            android:textAlignment="center"
+            android:textColor="?attr/actionModeSplitBackground"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -46,26 +46,28 @@
         android:id="@+id/linearLayout">
 
         <Button
-            android:id="@+id/button_about"
+            android:id="@+id/button_back"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btn_about" />
+            android:text="@string/btn_back" />
 
         <Button
-            android:id="@+id/button_settings"
+            android:id="@+id/button2"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_settings"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="invisible" />
+
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -92,6 +94,7 @@
             android:textStyle="bold"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="44dp" />
+
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
