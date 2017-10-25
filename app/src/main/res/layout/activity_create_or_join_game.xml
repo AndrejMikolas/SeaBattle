@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.example.andrej.seabattle.NewPlayerActivity">
+    tools:context="com.example.andrej.seabattle.CreateOrJoinGameActivity">
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -22,25 +22,43 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
 
-        <TextView
-            android:id="@+id/textView3"
+        <Button
+            android:id="@+id/button_createGame"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/enter_player"
-            android:textColor="@android:color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/holo_blue_light"
+            android:onClick="onClick"
+            android:padding="15dp"
+            android:text="@string/create_game"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="300dp" />
 
-        <EditText
-            android:id="@+id/editText_playerName"
+        <Button
+            android:id="@+id/button_joinGame"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/player"
-            android:inputType="textPersonName"
-            android:singleLine="true"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/holo_blue_light"
+            android:onClick="onClick"
+            android:padding="15dp"
+            android:text="@string/join_game"
+            android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -66,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="casual"
-            android:text="@string/new_player"
+            android:text="@string/new_game"
             android:textAlignment="center"
             android:textColor="?attr/actionModeSplitBackground"
             android:textSize="30sp"
@@ -104,7 +122,8 @@
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/next"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

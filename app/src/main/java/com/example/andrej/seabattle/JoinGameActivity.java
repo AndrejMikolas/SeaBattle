@@ -1,16 +1,15 @@
 package com.example.andrej.seabattle;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class NewPlayerActivity extends AppCompatActivity implements View.OnClickListener{
+public class JoinGameActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_player);
+        setContentView(R.layout.activity_join_game);
     }
 
     @Override
@@ -26,9 +25,9 @@ public class NewPlayerActivity extends AppCompatActivity implements View.OnClick
         }
         if(view == findViewById(R.id.button_next)){
             //TODO: dorobiť aktivitu
-            Intent gameTypeIntent = new Intent(getApplicationContext(), CreateOrJoinGameActivity.class);
-            startActivity(gameTypeIntent);
-            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+            //Intent newPlayerIntent = new Intent(getApplicationContext(), NewPlayerActivity.class);
+            //startActivity(newPlayerIntent);
+            //overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
     }
 }

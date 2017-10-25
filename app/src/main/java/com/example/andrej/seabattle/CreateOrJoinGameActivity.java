@@ -4,14 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
-public class GameModeActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreateOrJoinGameActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_mode);
+        setContentView(R.layout.activity_create_or_join_game);
     }
 
     @Override
@@ -25,16 +24,14 @@ public class GameModeActivity extends AppCompatActivity implements View.OnClickL
         if(view == findViewById(R.id.button_back)){
             onBackPressed();
         }
-        if(view == findViewById(R.id.button_singleDevice)){
-            //TODO: nastaviť property modu
-            Intent playerModeIntent = new Intent(getApplicationContext(), PlayersActivity.class);
-            startActivity(playerModeIntent);
+        if(view == findViewById(R.id.button_createGame)){
+            Intent createGameIntent = new Intent(getApplicationContext(), CreateGameActivity.class);
+            startActivity(createGameIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
-        if(view == findViewById(R.id.button_bluetooth)){
-            //TODO: nastaviť property modu
-            Intent playerModeIntent = new Intent(getApplicationContext(), PlayerModeActivity.class);
-            startActivity(playerModeIntent);
+        if(view == findViewById(R.id.button_joinGame)){
+            Intent joinGameIntent = new Intent(getApplicationContext(), JoinGameActivity.class);
+            startActivity(joinGameIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
     }

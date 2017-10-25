@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.example.andrej.seabattle.NewPlayerActivity">
+    tools:context="com.example.andrej.seabattle.PlayersActivity">
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -22,21 +22,25 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/enter_player"
-            android:textColor="@android:color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
         <EditText
-            android:id="@+id/editText_playerName"
+            android:id="@+id/editText_playerOneName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/player"
+            android:hint="@string/player_one"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText_playerTwoName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/player_two"
             android:inputType="textPersonName"
             android:singleLine="true"
             android:textAllCaps="true"
@@ -66,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="casual"
-            android:text="@string/new_player"
+            android:text="@string/players_names"
             android:textAlignment="center"
             android:textColor="?attr/actionModeSplitBackground"
             android:textSize="30sp"

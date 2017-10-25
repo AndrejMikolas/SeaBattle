@@ -1,5 +1,6 @@
 package com.example.andrej.seabattle;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,12 +26,14 @@ public class PlayerModeActivity extends AppCompatActivity implements View.OnClic
             onBackPressed();
         }
         if(view == findViewById(R.id.button_newPlayer)){
-            //TODO: prechod na novú aktivitu
-            Toast.makeText(this, "New player", Toast.LENGTH_SHORT).show();
+            Intent newPlayerIntent = new Intent(getApplicationContext(), NewPlayerActivity.class);
+            startActivity(newPlayerIntent);
+            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
         if(view == findViewById(R.id.button_selectPlayer)){
-            //TODO: prechod na novú aktivitu
-            Toast.makeText(this, "Select player", Toast.LENGTH_SHORT).show();
+            Intent selectPlayerIntent = new Intent(getApplicationContext(), SelectPlayerActivity.class);
+            startActivity(selectPlayerIntent);
+            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
     }
 }

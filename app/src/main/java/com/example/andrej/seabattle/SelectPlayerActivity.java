@@ -5,12 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class NewPlayerActivity extends AppCompatActivity implements View.OnClickListener{
+public class SelectPlayerActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_player);
+        setContentView(R.layout.activity_select_player);
     }
 
     @Override

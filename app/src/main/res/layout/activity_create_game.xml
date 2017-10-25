@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.example.andrej.seabattle.NewPlayerActivity">
+    tools:context="com.example.andrej.seabattle.CreateGameActivity">
     <LinearLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
@@ -23,26 +23,58 @@
         app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/enter_player"
+            android:text="@string/enter_game_name"
             android:textColor="@android:color/white"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editText_playerName"
+            android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/player"
+            android:hint="@string/new_game"
             android:inputType="textPersonName"
             android:singleLine="true"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_first_player"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton_playerOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/player_one"
+                android:textSize="18sp" />
+
+            <RadioButton
+                android:id="@+id/radioButton_playerTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/player_two"
+                android:textSize="18sp" />
+        </RadioGroup>
 
     </LinearLayout>
 
@@ -66,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="casual"
-            android:text="@string/new_player"
+            android:text="@string/create_game"
             android:textAlignment="center"
             android:textColor="?attr/actionModeSplitBackground"
             android:textSize="30sp"
@@ -104,7 +136,8 @@
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/next"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="visible" />
 
     </LinearLayout>
 

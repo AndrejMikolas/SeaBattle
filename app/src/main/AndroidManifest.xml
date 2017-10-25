@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.andrej.seabattle">
-
+<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,7 +20,12 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".PlayerModeActivity" />
-        <activity android:name=".NewPlayerActivity"></activity>
+        <activity android:name=".NewPlayerActivity" />
+        <activity android:name=".SelectPlayerActivity" />
+        <activity android:name=".PlayersActivity" />
+        <activity android:name=".CreateOrJoinGameActivity" />
+        <activity android:name=".JoinGameActivity" />
+        <activity android:name=".CreateGameActivity"></activity>
     </application>
 
 </manifest>
