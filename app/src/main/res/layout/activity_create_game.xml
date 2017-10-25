@@ -38,11 +38,11 @@
             android:ems="10"
             android:hint="@string/new_game"
             android:inputType="textPersonName"
-            android:singleLine="true"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/textView5"
@@ -166,7 +166,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="62dp"
+            android:textSize="62sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="44dp" />

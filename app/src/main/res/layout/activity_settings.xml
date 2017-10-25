@@ -30,7 +30,6 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:checked="true"
-            android:text="ToggleButton"
             android:textOff="@string/music_off"
             android:textOn="@string/music_on"
             android:textSize="24sp" />
@@ -44,7 +43,6 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:checked="true"
-            android:text="ToggleButton"
             android:textOff="@string/sound_off"
             android:textOn="@string/sound_on"
             android:textSize="24sp" />
@@ -58,7 +56,6 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:checked="true"
-            android:text="ToggleButton"
             android:textOff="@string/vibrate_off"
             android:textOn="@string/vibrate_on"
             android:textSize="24sp" />
@@ -153,7 +150,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="62dp"
+            android:textSize="62sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="44dp" />

@@ -6,10 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    //final GameEngine engine = new GameEngine();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GameEngine.musicThread = new Thread(){
+            public void run(){
+                Intent bgMusic = new Intent(getApplicationContext(), MenuMusicService.class);
+                startService(bgMusic);
+                GameEngine.context = getApplicationContext();
+            }
+        };
+        GameEngine.musicThread.start();
+
     }
 
     @Override
@@ -30,4 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             overridePendingTransition(R.transition.trans_bottom_in, R.transition.trans_bottom_out);
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        GameEngine.onExit();
+    }
+
 }
