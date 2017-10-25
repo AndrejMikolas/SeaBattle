@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".GameModeActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".PlayerModeActivity" />
+        <activity android:name=".NewPlayerActivity"></activity>
     </application>
 
 </manifest>
