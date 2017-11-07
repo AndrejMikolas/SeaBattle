@@ -1,4 +1,4 @@
-package com.example.andrej.seabattle.views;
+package com.example.andrej.seabattle.game_elements;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,14 +9,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.andrej.seabattle.R;
-import com.example.andrej.seabattle.classes.FieldType;
 
 /**
  * Created by Andrej on 26.10.2017.
@@ -24,7 +20,7 @@ import com.example.andrej.seabattle.classes.FieldType;
 
 public class Field extends View {
     private int mFieldColor = Color.BLUE;
-    private FieldType type;
+    private TileType type;
     private int xPos;
     private int yPos;
     private int xCoor;
@@ -44,7 +40,7 @@ public class Field extends View {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
         this.size = size;
-        this.type = FieldType.Water;
+        this.type = TileType.Water;
 
         this.setMinimumHeight(size);
         this.setMinimumWidth(size);

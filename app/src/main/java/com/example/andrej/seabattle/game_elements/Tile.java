@@ -1,4 +1,4 @@
-package com.example.andrej.seabattle.views;
+package com.example.andrej.seabattle.game_elements;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,14 +7,14 @@ import android.graphics.Rect;
 
 import com.example.andrej.seabattle.GameEngine;
 import com.example.andrej.seabattle.R;
-import com.example.andrej.seabattle.classes.FieldType;
+import com.example.andrej.seabattle.views.BattleGroundView;
 
 /**
  * Created by Andrej on 07.11.2017.
  */
 
 public class Tile {
-    private FieldType type;
+    private TileType type;
     private int xPos;
     private int yPos;
     private int xCoor;
@@ -26,7 +26,6 @@ public class Tile {
     private Bitmap tileBitmap;
     private Context context;
 
-
     public Tile(int xPos, int yPos, int xCoor, int yCoor, int size, Context context) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -37,18 +36,18 @@ public class Tile {
         this.tileRect = new Rect(xPos, yPos, xPos+size, yPos+size);
         //this.tilePaint = new Paint();
         //tilePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        this.type = FieldType.Water;
-        this.tileBitmap = BattleGroundView.bitmaps.get(this.type);
+        this.type = TileType.Water;
+        this.tileBitmap = BattleGroundView.fieldBitmaps.get(this.type);
     }
 
-    public FieldType getType() {
+    public TileType getType() {
         return type;
     }
 
-    public void setType(FieldType type) {
+    public void setType(TileType type) {
         this.type = type;
-        this.tileBitmap = BattleGroundView.bitmaps.get(type);
-        if(type == FieldType.Attacked){
+        this.tileBitmap = BattleGroundView.fieldBitmaps.get(type);
+        if(type == TileType.Attacked){
             GameEngine.playSound(R.raw.splash2);
         }
     }
@@ -71,6 +70,14 @@ public class Tile {
 
     public int getyCoor() {
         return yCoor;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
     }
 
 }

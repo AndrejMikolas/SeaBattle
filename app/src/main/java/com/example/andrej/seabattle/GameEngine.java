@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
-import android.view.View;
 
-import com.example.andrej.seabattle.classes.FieldType;
-import com.example.andrej.seabattle.views.Field;
+import com.example.andrej.seabattle.game_elements.TileType;
 
 import java.util.HashMap;
 
@@ -31,10 +29,10 @@ public class GameEngine {
     private static boolean sounds;
     private static boolean vibrations;
 
-    public static HashMap<FieldType, Integer> bitmaps = new HashMap<>();
+    public static HashMap<TileType, Integer> bitmaps = new HashMap<>();
     static{
-        bitmaps.put(FieldType.Water, R.drawable.water);
-        bitmaps.put(FieldType.Attacked, R.drawable.cross);
+        bitmaps.put(TileType.Water, R.drawable.water);
+        bitmaps.put(TileType.Attacked, R.drawable.cross);
     }
 
 

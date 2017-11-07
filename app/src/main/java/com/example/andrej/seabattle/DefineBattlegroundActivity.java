@@ -7,12 +7,13 @@ import com.example.andrej.seabattle.views.BattleGroundView;
 
 public class DefineBattlegroundActivity extends AppCompatActivity {
 
+    BattleGroundView battleGroundView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_define_battleground);
 
-        BattleGroundView battleGroundView = new BattleGroundView(getApplicationContext());
+        battleGroundView = new BattleGroundView(getApplicationContext());
     }
 
     @Override
@@ -20,4 +21,5 @@ public class DefineBattlegroundActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.transition.trans_right_in, R.transition.trans_right_out);
     }
+
 }
