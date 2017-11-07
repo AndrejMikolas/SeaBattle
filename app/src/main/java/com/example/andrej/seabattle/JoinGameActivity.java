@@ -1,5 +1,6 @@
 package com.example.andrej.seabattle;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,9 +26,9 @@ public class JoinGameActivity extends AppCompatActivity implements View.OnClickL
         }
         if(view == findViewById(R.id.button_next)){
             //TODO: dorobiť aktivitu
-            //Intent newPlayerIntent = new Intent(getApplicationContext(), NewPlayerActivity.class);
-            //startActivity(newPlayerIntent);
-            //overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+            Intent nearbyDevicesIntent = new Intent(getApplicationContext(), PairDeviceActivity.class);
+            startActivity(nearbyDevicesIntent);
+            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
     }
 }

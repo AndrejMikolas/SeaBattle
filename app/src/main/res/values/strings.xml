@@ -29,4 +29,5 @@
     <string name="join_game">Join Game</string>
     <string name="enter_game_name">Game name</string>
     <string name="select_first_player">Starting player</string>
+    <string name="nearby_devices">Nearby Devices</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.andrej.seabattle;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,13 +24,11 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
         if(view == findViewById(R.id.button_back)){
             onBackPressed();
         }
-        /*
         if(view == findViewById(R.id.button_next)){
             //TODO: dorobiť aktivitu
-            //Intent newPlayerIntent = new Intent(getApplicationContext(), NewPlayerActivity.class);
-            //startActivity(newPlayerIntent);
-            //overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+            Intent defineBattlegroungIntent = new Intent(getApplicationContext(), DefineBattlegroundActivity.class);
+            startActivity(defineBattlegroungIntent);
+            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
-        */
     }
 }

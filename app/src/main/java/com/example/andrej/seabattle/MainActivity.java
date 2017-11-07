@@ -1,5 +1,6 @@
 package com.example.andrej.seabattle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GameEngine.sharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+        GameEngine.loadSettings();
 
         GameEngine.musicThread = new Thread(){
             public void run(){
@@ -27,9 +30,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view == findViewById(R.id.button_startGame)){
+            //TODO: prehodiť späť na pôvodné
+/*
             Intent gameModeIntent = new Intent(getApplicationContext(), GameModeActivity.class);
             startActivity(gameModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+            */
+            GameEngine.onExit();
+            Intent gameModeIntent = new Intent(getApplicationContext(), DefineBattlegroundActivity.class);
+            startActivity(gameModeIntent);
+            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+
         }
         if(view == findViewById(R.id.button_settings)){
             Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
