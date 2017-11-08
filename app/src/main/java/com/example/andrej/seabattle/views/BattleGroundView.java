@@ -7,10 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.andrej.seabattle.R;
@@ -40,13 +42,15 @@ public class BattleGroundView extends View {
     private int spacing;
     private int fieldSize;
     private int padding;
-
     private boolean postInitDone = false;
 
     public static HashMap<TileType, Bitmap> fieldBitmaps = new HashMap<>();
     public static HashMap<Integer, Bitmap> shipBitmaps = new HashMap<>();
 
     public int movingShipIndex;
+
+    public final Handler handler = new Handler();
+    public Runnable longPressHandle;
 
     public BattleGroundView(Context context) {
         super(context);
@@ -78,18 +82,14 @@ public class BattleGroundView extends View {
         shipDockRect = new Rect();
         tiles = new ArrayList<>();
         loadBitmaps();
-/*
-        this.setOnTouchListener(new OnTouchListener() {
+        longPressHandle = new Runnable() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                float x = motionEvent.getX();
-                float y = motionEvent.getY();
-                findClickedField(x, y);
+            public void run() {
+                //TODO:
+                ships[movingShipIndex].rotate();
                 invalidate();
-                return false;
             }
-        });
-*/
+        };
     }
 
     @Override
@@ -191,7 +191,8 @@ public class BattleGroundView extends View {
             case MotionEvent.ACTION_DOWN:
                 final float x = motionEvent.getX();
                 final float y = motionEvent.getY();
-                this.movingShipIndex = getMovingShipIndex(x, y);
+                this.movingShipIndex = getTouchingShipIndex(x, y);
+                handler.postDelayed(longPressHandle, 500);
                 break;
             case MotionEvent.ACTION_UP:
 
@@ -205,23 +206,25 @@ public class BattleGroundView extends View {
                     placeShip(xUp, yUp);
                     movingShipIndex = -1;
                 }
-
+                handler.removeCallbacks(longPressHandle);
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
                 break;
             case MotionEvent.ACTION_POINTER_UP:
                 break;
             case MotionEvent.ACTION_MOVE:
+                handler.removeCallbacks(longPressHandle);
                 if(movingShipIndex >= 0) {
                     ships[movingShipIndex].moveToCenter(motionEvent.getX(), motionEvent.getY());
                     invalidate();
                 }
                 break;
+
         }
         return true;
     }
 
-    public int getMovingShipIndex(float x, float y){
+    public int getTouchingShipIndex(float x, float y){
         int index = -1;
         for(int i = 0; i < ships.length; i++){
             if(ships[i].getShipRect().contains((int)x, (int)y)){
@@ -233,22 +236,25 @@ public class BattleGroundView extends View {
     }
 
     private void placeShip(float definedX, float definedY){
+        boolean found = false;
         for(Tile tile: tiles){
             if(tile.getTileRect().contains((int)definedX, (int)definedY)){
                 ships[movingShipIndex].moveToCenter(tile.getxPos(), tile.getyPos()+fieldSize/2);
                 invalidate();
+                found = true;
                 break;
             }
-            else {
-                ships[movingShipIndex].moveToDefault();
-                invalidate();
-            }
         }
+        if(!found){
+            ships[movingShipIndex].moveToDefault();
+            invalidate();
+        }
+        return;
     }
 
     public void resetShips(){
-        for(Ship ship: ships){
-            ship.moveToDefault();
+        for(int i = 0; i < ships.length; i++){
+            ships[i].moveToDefault();
         }
     }
 

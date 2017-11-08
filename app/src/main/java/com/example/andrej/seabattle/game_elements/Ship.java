@@ -3,6 +3,7 @@ package com.example.andrej.seabattle.game_elements;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class Ship {
     private Context context;
     private ShipStatus shipStatus;
     private Paint shipPaint;
+    private Orientation orientation;
 
     public Ship(int xPos, int yPos, int length, int fieldSize, Context context) {
         this.defaultX = xPos;
@@ -39,9 +41,9 @@ public class Ship {
         this.context = context;
         this.shipRect = new Rect(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
         this.shipPaint = new Paint();
+        this.orientation = Orientation.Landscape;
         shipPaint.setColor(Color.TRANSPARENT);
         shipPaint.setStyle(Paint.Style.FILL);
-
         this.shipStatus = ShipStatus.Untouched;
         this.shipBitmap = BattleGroundView.shipBitmaps.get(this.length);
     }
@@ -57,13 +59,54 @@ public class Ship {
         }
 
         this.yPos = centerPosY-(fieldSize/2);
-        this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
+        if(orientation == Orientation.Landscape){
+            this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
+        }
+        else{
+            this.shipRect.set(xPos, yPos, xPos+fieldSize, yPos+(length*fieldSize));
+        }
+
     }
 
     public void moveToDefault(){
         this.xPos = defaultX;
         this.yPos = defaultY;
-        this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
+        if(this.orientation == Orientation.Portrait){
+            this.setOrientation(Orientation.Landscape);
+        }
+        //this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
+    }
+
+    public void rotate(){
+        if(orientation == Orientation.Landscape){
+            setOrientation(Orientation.Portrait);
+        }
+        else{
+            setOrientation(Orientation.Landscape);
+        }
+    }
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+        if(this.orientation == Orientation.Landscape){
+            this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
+            this.shipBitmap = RotateBitmap(this.shipBitmap, 90);
+        }
+        else{
+            this.shipRect.set(xPos, yPos, xPos+fieldSize, yPos+(length*fieldSize));
+            this.shipBitmap = RotateBitmap(this.shipBitmap, -90);
+        }
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
     }
 
     public int getDefaultX() {
