@@ -22,9 +22,12 @@ public class Tile {
     private int size;
 
     private Rect tileRect;
-    private Paint tilePaint;
     private Bitmap tileBitmap;
     private Context context;
+
+    public Tile(){
+        this(0, 0, 0, 0, 0, null);
+    }
 
     public Tile(int xPos, int yPos, int xCoor, int yCoor, int size, Context context) {
         this.xPos = xPos;
@@ -34,8 +37,6 @@ public class Tile {
         this.size = size;
         this.context = context;
         this.tileRect = new Rect(xPos, yPos, xPos+size, yPos+size);
-        //this.tilePaint = new Paint();
-        //tilePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         this.type = TileType.Water;
         this.tileBitmap = BattleGroundView.fieldBitmaps.get(this.type);
     }

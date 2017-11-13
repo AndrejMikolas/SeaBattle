@@ -31,15 +31,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view == findViewById(R.id.button_startGame)){
             //TODO: prehodiť späť na pôvodné
-/*
             Intent gameModeIntent = new Intent(getApplicationContext(), GameModeActivity.class);
             startActivity(gameModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
-            */
+
             GameEngine.onExit();
+            /*
             Intent gameModeIntent = new Intent(getApplicationContext(), DefineBattlegroundActivity.class);
             startActivity(gameModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+            */
 
         }
         if(view == findViewById(R.id.button_settings)){

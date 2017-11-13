@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.example.andrej.seabattle.views.BattleGroundView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Andrej on 07.11.2017.
  */
@@ -48,6 +50,18 @@ public class Ship {
         this.shipBitmap = BattleGroundView.shipBitmaps.get(this.length);
     }
 
+    public void moveToCoors(int x, int y, ArrayList<Tile> battleGround){
+        this.xCoor = x;
+        this.yCoor = y;
+        Tile mainTile = new Tile();
+        for(Tile tile: battleGround){
+            if(tile.getxCoor() == x && tile.getyCoor() == y){
+                mainTile = tile;
+            }
+        }
+        moveToCenter(mainTile.getxPos(), mainTile.getyPos());
+    }
+
     public void moveToCenter(float x, float y){
         int centerPosX = (int) x;
         int centerPosY = (int) y;
@@ -57,8 +71,7 @@ public class Ship {
         else{
             this.xPos = centerPosX-(((length-1)*fieldSize)/2);
         }
-
-        this.yPos = centerPosY-(fieldSize/2);
+        this.yPos = centerPosY;//-(fieldSize/2);
         if(orientation == Orientation.Landscape){
             this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
         }
@@ -74,7 +87,7 @@ public class Ship {
         if(this.orientation == Orientation.Portrait){
             this.setOrientation(Orientation.Landscape);
         }
-        //this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
+        this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
     }
 
     public void rotate(){

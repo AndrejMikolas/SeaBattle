@@ -27,7 +27,9 @@ public class GameModeActivity extends AppCompatActivity implements View.OnClickL
         }
         if(view == findViewById(R.id.button_singleDevice)){
             //TODO: nastaviť property modu
+            Game game = new Game(GameType.SingleDevice);
             Intent playerModeIntent = new Intent(getApplicationContext(), PlayersActivity.class);
+            playerModeIntent.putExtra("Game", game);
             startActivity(playerModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }

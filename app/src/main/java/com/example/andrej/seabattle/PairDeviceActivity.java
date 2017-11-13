@@ -44,8 +44,9 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
                 Intent btRequestIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(btRequestIntent, 1);
             }
-            getPairedDevices();
             startDiscovery();
+            getPairedDevices();
+
         }
 
     }
@@ -70,7 +71,6 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
         listView.setOnItemClickListener(this);
         listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, 0);
         listView.setAdapter(listAdapter);
-        listAdapter.add("píčovina");
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         searchedDevices = new ArrayList<String>();
         filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
