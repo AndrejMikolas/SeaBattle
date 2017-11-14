@@ -5,11 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ocean"
-    tools:context="com.example.andrej.seabattle.DefineBattlegroundActivity">
-
+    tools:context="com.example.andrej.seabattle.GameActivity">
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -33,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
-                android:text="@string/place_your_ships"
+                android:text="@string/game"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
@@ -63,19 +61,10 @@
     <com.example.andrej.seabattle.views.BattleGroundView
         android:id="@+id/battleGround"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -86,24 +75,24 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button_resetShips"
+            android:id="@+id/button_settings"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick"
-            android:text="@string/reset"
+            android:text="@string/settings"
             android:textSize="14sp"
             android:visibility="visible" />
 
         <Button
-            android:id="@+id/button_nextPlayer"
+            android:id="@+id/button_pause"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick"
-            android:text="@string/next_player"
+            android:text="@string/pause"
             android:textSize="14sp"
             android:visibility="visible" />
     </LinearLayout>

@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.andrej.seabattle.game_elements.Game;
+import com.example.andrej.seabattle.game_elements.GameData;
+import com.example.andrej.seabattle.game_elements.GameEngine;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    //final GameEngine engine = new GameEngine();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view == findViewById(R.id.button_startGame)){
-            //TODO: prehodiť späť na pôvodné
+            GameData.getInstance().game = new Game();
             Intent gameModeIntent = new Intent(getApplicationContext(), GameModeActivity.class);
             startActivity(gameModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);

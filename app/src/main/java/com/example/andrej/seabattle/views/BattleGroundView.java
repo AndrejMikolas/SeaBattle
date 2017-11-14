@@ -12,9 +12,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.andrej.seabattle.R;
+import com.example.andrej.seabattle.game_elements.Orientation;
 import com.example.andrej.seabattle.game_elements.TileType;
 import com.example.andrej.seabattle.game_elements.Ship;
 import com.example.andrej.seabattle.game_elements.Tile;
@@ -35,7 +37,7 @@ public class BattleGroundView extends View {
     private Paint backgroundPaint;
     private Paint shipDockPaint;
 
-    private ArrayList<Tile> tiles;
+    private Tile[][] tiles;
     public ArrayList<Ship> ships;
 
     private int spacing;
@@ -80,14 +82,13 @@ public class BattleGroundView extends View {
         shipDockPaint.setColor(SHIP_DOCK_COLOR);
         backGroundRect = new Rect();
         shipDockRect = new Rect();
-        tiles = new ArrayList<>();
+
+        tiles = new Tile[TILES_IN_ROW][TILES_IN_ROW];
         ships = new ArrayList<>();
         loadBitmaps();
         longPressHandle = new Runnable() {
             @Override
             public void run() {
-                //TODO:
-                //ships[movingShipIndex].rotate();
                 ships.get(movingShipIndex).rotate();
                 invalidate();
             }
@@ -109,19 +110,22 @@ public class BattleGroundView extends View {
      */
     private void loadBitmaps() {
         fieldBitmaps.put(TileType.Water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
-        fieldBitmaps.put(TileType.Attacked, BitmapFactory.decodeResource(getResources(), R.drawable.cross));
+        fieldBitmaps.put(TileType.ShipHit, BitmapFactory.decodeResource(getResources(), R.drawable.cross));
+        fieldBitmaps.put(TileType.Attacked, BitmapFactory.decodeResource(getResources(), R.drawable.dot));
         shipBitmaps.put(2, BitmapFactory.decodeResource(getResources(), R.drawable.ship_2));
         shipBitmaps.put(3, BitmapFactory.decodeResource(getResources(), R.drawable.ship_3));
         shipBitmaps.put(4, BitmapFactory.decodeResource(getResources(), R.drawable.ship_4));
     }
 
-    private void findClickedField(float x, float y) {
-        for(Tile tile: tiles){
-            if(tile.getTileRect().contains((int)x, (int)y)){
-                Toast.makeText(getContext(),
-                        "position: " + tile.getxCoor() + " " + tile.getyCoor(),
-                        Toast.LENGTH_SHORT).show();
-                tile.setType(TileType.Attacked);
+    private void findClickedField(float xPos, float yPos) {
+        for(int x = 0; x < TILES_IN_ROW; x++){
+            for(int y = 0; y < TILES_IN_ROW; y++) {
+                if (tiles[x][y].getTileRect().contains((int) xPos, (int) yPos)) {
+                    Toast.makeText(getContext(),
+                            "position: " + tiles[x][y].getxCoor() + " " + tiles[x][y].getyCoor(),
+                            Toast.LENGTH_SHORT).show();
+                    tiles[x][y].setType(TileType.Attacked);
+                }
             }
         }
     }
@@ -145,9 +149,9 @@ public class BattleGroundView extends View {
                 canvas.getWidth() - paddingSide - spacing,
                 paddingTop + (TILES_IN_ROW * (fieldSize + spacing)) - spacing);
         shipDockRect.set(paddingSide,
-                backGroundRect.bottom + paddingSide,
+                backGroundRect.bottom + paddingSide/2,
                 canvas.getWidth() - paddingSide,
-                paddingTop + ((TILES_IN_ROW + 4) * (fieldSize + spacing)) + paddingSide);
+                backGroundRect.bottom + paddingSide/2 + (3 * (fieldSize + spacing)));
         canvas.drawRect(backGroundRect, backgroundPaint);
         canvas.drawRect(shipDockRect, shipDockPaint);
         createFields();
@@ -164,8 +168,8 @@ public class BattleGroundView extends View {
      */
     private void calculateParameters(Canvas canvas) {
         spacing = canvas.getWidth()/300;
-        paddingSide = canvas.getWidth()/15;
-        paddingTop = paddingSide*(4);
+        paddingSide = canvas.getWidth()/20;
+        paddingTop = paddingSide/4;
         fieldSize = (canvas.getWidth() - paddingSide - paddingSide - spacing*(TILES_IN_ROW -1))/ TILES_IN_ROW;
     }
 
@@ -174,8 +178,10 @@ public class BattleGroundView extends View {
      * @param canvas    Canvas, na ktorý jednotlivé elementy vykreslí.
      */
     private void redrawFields(Canvas canvas) {
-        for(Tile tile: tiles){
-            canvas.drawBitmap(tile.getTileBitmap(), null, tile.getTileRect(), null);
+        for(int x = 0; x < tiles.length; x++){
+            for(int y = 0; y < tiles[x].length; y++) {
+                canvas.drawBitmap(tiles[x][y].getTileBitmap(), null, tiles[x][y].getTileRect(), null);
+            }
         }
         for(Ship ship: ships){
             canvas.drawBitmap(ship.getShipBitmap(), null ,ship.getShipRect(), null);
@@ -195,7 +201,7 @@ public class BattleGroundView extends View {
                         y,
                         fieldSize,
                         getContext());
-                tiles.add(newTile);
+                tiles[x][y] = newTile;
             }
         }
     }
@@ -205,12 +211,12 @@ public class BattleGroundView extends View {
      * ukladať na hracie pole.
      */
     private void createShips(){
-        ships.add(new Ship(paddingSide, paddingTop +(TILES_IN_ROW *fieldSize)+fieldSize * 2, 4, fieldSize, getContext()));
-        ships.add(new Ship(paddingSide, paddingTop +(TILES_IN_ROW *fieldSize)+fieldSize*3, 3, fieldSize, getContext()));
-        ships.add(new Ship(paddingSide + fieldSize*4, paddingTop +(TILES_IN_ROW *fieldSize)+fieldSize*3, 3, fieldSize, getContext()));
-        ships.add(new Ship(paddingSide, paddingTop +(TILES_IN_ROW *fieldSize)+fieldSize*4, 2, fieldSize, getContext()));
-        ships.add(new Ship(paddingSide + fieldSize*3, paddingTop +(TILES_IN_ROW *fieldSize)+fieldSize*4, 2, fieldSize, getContext()));
-        ships.add(new Ship(paddingSide + fieldSize*6, paddingTop +(TILES_IN_ROW *fieldSize)+fieldSize*4, 2, fieldSize, getContext()));
+        ships.add(new Ship((int)(paddingSide*1.5), backGroundRect.bottom + paddingSide/2, 4, fieldSize, getContext()));
+        ships.add(new Ship((int)(paddingSide*1.5), backGroundRect.bottom + paddingSide/2 + fieldSize, 3, fieldSize, getContext()));
+        ships.add(new Ship((int)(paddingSide*1.5) + fieldSize*4, backGroundRect.bottom + paddingSide/2 + fieldSize, 3, fieldSize, getContext()));
+        ships.add(new Ship((int)(paddingSide*1.5), backGroundRect.bottom + paddingSide/2 + fieldSize*2, 2, fieldSize, getContext()));
+        ships.add(new Ship((int)(paddingSide*1.5) + fieldSize*3, backGroundRect.bottom + paddingSide/2 + fieldSize*2, 2, fieldSize, getContext()));
+        ships.add(new Ship((int)(paddingSide*1.5) + fieldSize*6, backGroundRect.bottom + paddingSide/2 + fieldSize*2, 2, fieldSize, getContext()));
     }
 
     /**
@@ -249,13 +255,11 @@ public class BattleGroundView extends View {
             case MotionEvent.ACTION_MOVE:
                 handler.removeCallbacks(longPressHandle);
                 if(movingShipIndex >= 0) {
-
                     ships.get(movingShipIndex).moveToCenter(motionEvent.getX(), motionEvent.getY());
                     //ships[movingShipIndex].moveToCenter(motionEvent.getX(), motionEvent.getY());
                     invalidate();
                 }
                 break;
-
         }
         return true;
     }
@@ -284,20 +288,39 @@ public class BattleGroundView extends View {
      */
     private void placeShip(float definedX, float definedY){
         boolean found = false;
-        for(Tile tile: tiles){
-            if(tile.getTileRect().contains((int)definedX, (int)definedY)){
-                //ships.get(movingShipIndex).moveToCenter(tile.getxPos(), tile.getyPos()+fieldSize/2);
-                ships.get(movingShipIndex).moveToCoors(tile.getxCoor(), tile.getyCoor(), this.tiles);
-                invalidate();
-                found = true;
-                break;
+        int xPos = (int)definedX-(((ships.get(movingShipIndex).getLength()-ships.get(movingShipIndex).getLength() % 2 == 0 ? 0 : 1)*fieldSize)/2);
+        int yPos = (int)definedY;//-fieldSize/2;
+        for(int x = 0; x < tiles.length; x++){
+            for(int y = 0; y < tiles[x].length; y++) {
+                if (tiles[x][y].getTileRect().contains(xPos , yPos)) {
+                    //ships.get(movingShipIndex).moveToCenter(tile.getxPos(), tile.getyPos()+fieldSize/2);
+                    ships.get(movingShipIndex).moveToCoors(x, y, tiles[x][y]);
+                    ships.get(movingShipIndex).setInDock(false);
+                    invalidate();
+                    found = true;
+                    break;
+                }
             }
         }
         if(!found){
             ships.get(movingShipIndex).moveToDefault();
+            ships.get(movingShipIndex).setInDock(true);
             invalidate();
         }
+        //checkPlacedShips();
         return;
+    }
+
+    private void checkPlacedShips() {
+        boolean allPlaced = true;
+        //Button nextPlayerButton = (Button)findViewById(R.id.button_nextPlayer);
+        for(Ship ship:ships){
+            if(ship.isInDock() == true){
+                allPlaced = false;
+                break;
+            }
+        }
+        //nextPlayerButton.setEnabled(allPlaced);
     }
 
     /**
@@ -310,16 +333,21 @@ public class BattleGroundView extends View {
         invalidate();
     }
 
-    public void getBattleGround(){
+    public Tile[][] getBattleGround(){
         for(Ship ship: ships){
-            for(Tile tile:tiles){
-                if(tile.getxCoor() == ship.getxCoor() && tile.getyCoor() == ship.getyCoor()){
-
-                    tile.setType(TileType.Ship);
-                    break;
+            if(!ship.isInDock()){
+                for(int i = 0; i < ship.getLength(); i++){
+                    if(ship.getOrientation() == Orientation.Landscape){
+                        tiles[ship.getxCoor()+i][ship.getyCoor()].setType(TileType.Ship);
+                    }
+                    else{
+                        tiles[ship.getxCoor()][ship.getyCoor()+i].setType(TileType.Ship);
+                    }
                 }
             }
         }
+        return tiles;
+        //invalidate();
     }
 
 }

@@ -2,18 +2,18 @@ package com.example.andrej.seabattle.game_elements;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.example.andrej.seabattle.GameEngine;
 import com.example.andrej.seabattle.R;
 import com.example.andrej.seabattle.views.BattleGroundView;
+
+import java.io.Serializable;
 
 /**
  * Created by Andrej on 07.11.2017.
  */
 
-public class Tile {
+public class Tile implements Serializable {
     private TileType type;
     private int xPos;
     private int yPos;

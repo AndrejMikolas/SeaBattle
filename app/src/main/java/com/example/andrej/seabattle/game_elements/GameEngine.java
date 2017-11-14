@@ -1,11 +1,12 @@
-package com.example.andrej.seabattle;
+package com.example.andrej.seabattle.game_elements;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 
-import com.example.andrej.seabattle.game_elements.TileType;
+import com.example.andrej.seabattle.MenuMusicService;
+import com.example.andrej.seabattle.R;
 
 import java.util.HashMap;
 

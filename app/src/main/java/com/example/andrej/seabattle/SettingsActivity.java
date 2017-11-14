@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ToggleButton;
 
+import com.example.andrej.seabattle.game_elements.GameEngine;
+
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{
 
     ToggleButton musicToggle;

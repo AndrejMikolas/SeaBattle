@@ -32,7 +32,8 @@
         <activity android:name=".JoinGameActivity" />
         <activity android:name=".CreateGameActivity" />
         <activity android:name=".PairDeviceActivity" />
-        <activity android:name=".DefineBattlegroundActivity"></activity>
+        <activity android:name=".DefineBattlegroundActivity" />
+        <activity android:name=".GameActivity"></activity>
     </application>
 
 </manifest>

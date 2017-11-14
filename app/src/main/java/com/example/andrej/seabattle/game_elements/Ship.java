@@ -25,6 +25,7 @@ public class Ship {
     private int yCoor;
     private int fieldSize;
     private int length;
+    private boolean inDock;
 
     private Rect shipRect;
     private Bitmap shipBitmap;
@@ -39,6 +40,7 @@ public class Ship {
         this.xPos = defaultX;
         this.yPos = defaultY;
         this.length = length;
+        this.inDock = true;
         this.fieldSize = fieldSize;
         this.context = context;
         this.shipRect = new Rect(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
@@ -50,35 +52,34 @@ public class Ship {
         this.shipBitmap = BattleGroundView.shipBitmaps.get(this.length);
     }
 
-    public void moveToCoors(int x, int y, ArrayList<Tile> battleGround){
+    public void moveToCoors(int x, int y, Tile mainTile){
         this.xCoor = x;
         this.yCoor = y;
-        Tile mainTile = new Tile();
-        for(Tile tile: battleGround){
-            if(tile.getxCoor() == x && tile.getyCoor() == y){
-                mainTile = tile;
-            }
-        }
-        moveToCenter(mainTile.getxPos(), mainTile.getyPos());
+        //moveToCenter(mainTile.getxPos(), mainTile.getyPos());
+        this.xPos = mainTile.getxPos();
+        this.yPos = mainTile.getyPos();
+        refreshPosition();
+
     }
 
-    public void moveToCenter(float x, float y){
-        int centerPosX = (int) x;
-        int centerPosY = (int) y;
-        if(length%2==0){
-            this.xPos = centerPosX-((length*fieldSize)/2);
-        }
-        else{
-            this.xPos = centerPosX-(((length-1)*fieldSize)/2);
-        }
-        this.yPos = centerPosY;//-(fieldSize/2);
+    private void refreshPosition() {
         if(orientation == Orientation.Landscape){
             this.shipRect.set(xPos, yPos, xPos+(length*fieldSize), yPos+fieldSize);
         }
         else{
             this.shipRect.set(xPos, yPos, xPos+fieldSize, yPos+(length*fieldSize));
         }
+    }
 
+    public void moveToCenter(float x, float y){
+        if(length%2==0){
+            this.xPos = (int)x - ((length*fieldSize)/2);
+        }
+        else{
+            this.xPos = (int)x - (((length-1)*fieldSize)/2);
+        }
+        this.yPos = (int) y;//-(fieldSize/2);
+        refreshPosition();
     }
 
     public void moveToDefault(){
@@ -164,6 +165,14 @@ public class Ship {
 
     public int getLength() {
         return length;
+    }
+
+    public boolean isInDock() {
+        return inDock;
+    }
+
+    public void setInDock(boolean inDock) {
+        this.inDock = inDock;
     }
 
     public void setLength(int length) {

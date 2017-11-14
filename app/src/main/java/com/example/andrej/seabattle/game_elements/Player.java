@@ -1,4 +1,4 @@
-package com.example.andrej.seabattle;
+package com.example.andrej.seabattle.game_elements;
 
 import com.example.andrej.seabattle.game_elements.Ship;
 import com.example.andrej.seabattle.game_elements.Tile;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class Player implements Serializable{
     public String name;
-    public ArrayList<Tile> defenseGround;
-    public ArrayList<Tile> attackGround;
+    public Tile[][] defenseGround;
+    public Tile[][] attackGround;
     public ArrayList<Ship> ships;
 
     public Player(String name){

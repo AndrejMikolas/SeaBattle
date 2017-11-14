@@ -7,6 +7,8 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.example.andrej.seabattle.game_elements.GameEngine;
+
 /**
  * Created by Andrej on 25.10.2017.
  */

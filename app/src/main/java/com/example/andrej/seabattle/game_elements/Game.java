@@ -1,4 +1,4 @@
-package com.example.andrej.seabattle;
+package com.example.andrej.seabattle.game_elements;
 
 import java.io.Serializable;
 
@@ -14,7 +14,4 @@ public class Game implements Serializable{
 
     public boolean onTurn;
 
-    public Game(GameType type){
-        this.gameType = type;
-    }
 }
