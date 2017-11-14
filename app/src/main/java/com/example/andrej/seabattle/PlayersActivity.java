@@ -33,8 +33,8 @@ public class PlayersActivity extends AppCompatActivity implements View.OnClickLi
             onBackPressed();
         }
         if(view == findViewById(R.id.button_next)){
-            GameData.getInstance().game.player1 = new Player(playerOneName.getText().toString().length() == 0 ? "Player 1" : playerOneName.getText().toString());
-            GameData.getInstance().game.player2 = new Player(playerTwoName.getText().toString().length() == 0 ? "Player 2" : playerTwoName.getText().toString());
+            GameData.getInstance().game.player1 = new Player(playerOneName.getText().toString().length() == 0 ? "Player 1" : playerOneName.getText().toString(), true);
+            GameData.getInstance().game.player2 = new Player(playerTwoName.getText().toString().length() == 0 ? "Player 2" : playerTwoName.getText().toString(), false);
             Intent battlegroundPlayer1Intent = new Intent(this, DefineBattlegroundActivity.class);
             battlegroundPlayer1Intent.putExtra("isLastPlayer", false);
             startActivity(battlegroundPlayer1Intent);

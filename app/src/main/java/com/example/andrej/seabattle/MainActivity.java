@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view == findViewById(R.id.button_settings)){
             Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+            //settingsIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             startActivity(settingsIntent);
             overridePendingTransition(R.transition.trans_bottom_in, R.transition.trans_bottom_out);
         }

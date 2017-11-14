@@ -50,12 +50,15 @@ public class DefineBattlegroundActivity extends AppCompatActivity implements Vie
             Tile [][] battleGround = battleGroundView.getBattleGround();
             if(isLastPlayer){
                 GameData.getInstance().game.player2.defenseGround = battleGround;
+                Intent gameIntent= new Intent(getApplicationContext(), GameActivity.class);
+                startActivity(gameIntent);
+                overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
             }
             else{
                 GameData.getInstance().game.player1.defenseGround = battleGround;
-                Intent intent = new Intent(getApplicationContext(), DefineBattlegroundActivity.class);
-                intent.putExtra("isLastPlayer", true);
-                startActivity(intent);
+                Intent battlegroundPlayer2Intent = new Intent(getApplicationContext(), DefineBattlegroundActivity.class);
+                battlegroundPlayer2Intent.putExtra("isLastPlayer", true);
+                startActivity(battlegroundPlayer2Intent);
                 overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
             }
         }

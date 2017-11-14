@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/missile"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/missile"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".MenuMusicService" />
@@ -33,7 +33,7 @@
         <activity android:name=".CreateGameActivity" />
         <activity android:name=".PairDeviceActivity" />
         <activity android:name=".DefineBattlegroundActivity" />
-        <activity android:name=".GameActivity"></activity>
+        <activity android:name=".GameActivity" />
     </application>
 
 </manifest>

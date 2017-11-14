@@ -15,9 +15,11 @@ public class Player implements Serializable{
     public Tile[][] defenseGround;
     public Tile[][] attackGround;
     public ArrayList<Ship> ships;
+    public boolean onTurn;
 
-    public Player(String name){
+    public Player(String name, boolean onTurn){
         this.name = name;
+        this.onTurn = onTurn;
     }
 
 }

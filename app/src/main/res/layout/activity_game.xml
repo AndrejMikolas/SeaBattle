@@ -6,14 +6,19 @@
     android:layout_height="match_parent"
     android:background="@drawable/ocean"
     tools:context="com.example.andrej.seabattle.GameActivity">
+
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -50,7 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
-                android:text="@string/player_one"
                 android:textAlignment="center"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -58,12 +62,8 @@
 
     </LinearLayout>
 
-    <com.example.andrej.seabattle.views.BattleGroundView
-        android:id="@+id/battleGround"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
-
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -96,5 +96,30 @@
             android:textSize="14sp"
             android:visibility="visible" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <com.example.andrej.seabattle.views.GameGroundView
+            android:id="@+id/gameGroundPlayer1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.example.andrej.seabattle.views.GameGroundView
+            android:id="@+id/gameGroundPlayer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -180,7 +180,12 @@ public class BattleGroundView extends View {
     private void redrawFields(Canvas canvas) {
         for(int x = 0; x < tiles.length; x++){
             for(int y = 0; y < tiles[x].length; y++) {
-                canvas.drawBitmap(tiles[x][y].getTileBitmap(), null, tiles[x][y].getTileRect(), null);
+                try{
+                    canvas.drawBitmap(tiles[x][y].getTileBitmap(), null, tiles[x][y].getTileRect(), null);
+                }
+                catch (Exception e){
+
+                }
             }
         }
         for(Ship ship: ships){
