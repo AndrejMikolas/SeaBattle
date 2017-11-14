@@ -1,10 +1,13 @@
 package com.example.andrej.seabattle;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,13 +71,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleGameLogic(boolean changePlayer) {
         if(changePlayer){
-            /*
-            try{
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Log.d("SeaBattle", e.toString());
-            }
-            */
             if(GameData.getInstance().game.player1.onTurn){
                 GameData.getInstance().game.player1.onTurn = false;
                 GameData.getInstance().game.player2.onTurn = true;
@@ -112,7 +108,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             overridePendingTransition(R.transition.trans_bottom_in, R.transition.trans_bottom_out);
         }
         if(view == findViewById(R.id.button_pause)){
-            Toast.makeText(this, "Pause", Toast.LENGTH_SHORT).show();
+            final PauseDialogFragment dialogFragment = new PauseDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "fragment");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        final PauseDialogFragment dialogFragment = new PauseDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), "fragment");
     }
 }

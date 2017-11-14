@@ -312,20 +312,7 @@ public class BattleGroundView extends View {
             ships.get(movingShipIndex).setInDock(true);
             invalidate();
         }
-        //checkPlacedShips();
         return;
-    }
-
-    private void checkPlacedShips() {
-        boolean allPlaced = true;
-        //Button nextPlayerButton = (Button)findViewById(R.id.button_nextPlayer);
-        for(Ship ship:ships){
-            if(ship.isInDock() == true){
-                allPlaced = false;
-                break;
-            }
-        }
-        //nextPlayerButton.setEnabled(allPlaced);
     }
 
     /**
@@ -334,6 +321,11 @@ public class BattleGroundView extends View {
     public void resetShips(){
         for(int i = 0; i < ships.size(); i++){
             this.ships.get(i).moveToDefault();
+        }
+        for(int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[x].length; y++) {
+                tiles[x][y].setType(TileType.Water);
+            }
         }
         invalidate();
     }

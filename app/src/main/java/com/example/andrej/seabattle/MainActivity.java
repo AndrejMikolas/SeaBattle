@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed(){
         super.onBackPressed();
         GameEngine.onExit();
+        this.finishAffinity();
     }
 
 }

@@ -34,5 +34,7 @@
     <string name="next_player">Next player</string>
     <string name="place_your_ships">Place your ships</string>
     <string name="game">Game</string>
+    <string name="resume_game">Resume Game</string>
+    <string name="exit_game">Exit Game</string>
     <string name="pause">Pause</string>
 </resources>

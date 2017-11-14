@@ -39,6 +39,25 @@ public class DefineBattlegroundActivity extends AppCompatActivity implements Vie
     public void onBackPressed(){
         super.onBackPressed();
         overridePendingTransition(R.transition.trans_right_in, R.transition.trans_right_out);
+        /*
+        if(!isLastPlayer){
+            super.onBackPressed();
+            overridePendingTransition(R.transition.trans_right_in, R.transition.trans_right_out);
+        }
+        else{
+            Intent battlegroundPlayer1Intent = new Intent(getApplicationContext(), DefineBattlegroundActivity.class);
+            battlegroundPlayer1Intent.putExtra("isLastPlayer", false);
+            startActivity(battlegroundPlayer1Intent);
+            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+        }
+        */
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        battleGroundView.resetShips();
+        //battleGroundView.invalidate();
     }
 
     @Override
