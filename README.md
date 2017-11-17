@@ -19,9 +19,9 @@ Vyhráva hráč, ktorému sa podarí zničiť všetky protivníkove lode.
 </p>
 
 Features:
- bluetooth communication,
- multimedia (sounds),
- 2D canvas,
- threads,
- persistent storage,
- vibrations control,
+* bluetooth communication,
+* multimedia (sounds),
+* 2D canvas,
+* threads,
+* persistent storage,
+* vibrations control,
