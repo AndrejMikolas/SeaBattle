@@ -9,13 +9,14 @@ Hráči si pred začiatkom umiestnia svoje lode na hracie pole na ľubovoľné p
 vzájomne nedotýkali.
 Vyhráva hráč, ktorému sa podarí zničiť všetky protivníkove lode.
 
-![main_page](http://homel.vsb.cz/~mik0327/1.png)
-
+<p align="center">
+  <img src="http://homel.vsb.cz/~mik0327/1.png" width="350"/>
+</p>
 
 Features:
-  > bluetooth komunikácia
-  > multimedia (zvuky)
-  > 2D canvas
-  > vlákna
-  > persistent storage
-  > ovládanie vibrácii
+  > bluetooth communication,
+  > multimedia (sounds),
+  > 2D canvas,
+  > threads,
+  > persistent storage,
+  > vibrations control,
