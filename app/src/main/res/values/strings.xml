@@ -37,4 +37,5 @@
     <string name="resume_game">Resume Game</string>
     <string name="exit_game">Exit Game</string>
     <string name="pause">Pause</string>
+    <string name="game_time">Game time:</string>
 </resources>

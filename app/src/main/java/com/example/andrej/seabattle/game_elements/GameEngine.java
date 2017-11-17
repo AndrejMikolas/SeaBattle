@@ -4,8 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.example.andrej.seabattle.MenuMusicService;
+import com.example.andrej.seabattle.MyBounceInterpolator;
 import com.example.andrej.seabattle.R;
 
 import java.util.HashMap;
@@ -90,12 +96,31 @@ public class GameEngine {
     }
 
     public static void playSound(int _id) {
-        if(mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+        if(isSounds()){
+            if(mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }
+            mediaPlayer = MediaPlayer.create(context, _id);
+            if(mediaPlayer != null)
+                mediaPlayer.start();
         }
-        mediaPlayer = MediaPlayer.create(context, _id);
-        if(mediaPlayer != null)
-            mediaPlayer.start();
+    }
+
+    public static void vibrate(int miliseconds){
+        if(isVibrations()){
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if(vibrator.hasVibrator()){
+                vibrator.vibrate(miliseconds);
+            }
+
+        }
+    }
+
+    public static void bounceView(View view) {
+        final Animation viewBounceAnimIn = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.bounce);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.2, 20);
+        viewBounceAnimIn.setInterpolator(interpolator);
+        view.startAnimation(viewBounceAnimIn);
     }
 }

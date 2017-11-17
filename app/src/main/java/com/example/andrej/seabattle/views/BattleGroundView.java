@@ -12,8 +12,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.andrej.seabattle.R;
 import com.example.andrej.seabattle.game_elements.Orientation;
@@ -75,7 +73,6 @@ public class BattleGroundView extends View {
     }
 
     private void init(@Nullable AttributeSet attrs) {
-        // Load attributes
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setColor(BACKGROUND_COLOR);
         shipDockPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -115,19 +112,6 @@ public class BattleGroundView extends View {
         shipBitmaps.put(2, BitmapFactory.decodeResource(getResources(), R.drawable.ship_2));
         shipBitmaps.put(3, BitmapFactory.decodeResource(getResources(), R.drawable.ship_3));
         shipBitmaps.put(4, BitmapFactory.decodeResource(getResources(), R.drawable.ship_4));
-    }
-
-    private void findClickedField(float xPos, float yPos) {
-        for(int x = 0; x < TILES_IN_ROW; x++){
-            for(int y = 0; y < TILES_IN_ROW; y++) {
-                if (tiles[x][y].getTileRect().contains((int) xPos, (int) yPos)) {
-                    Toast.makeText(getContext(),
-                            "position: " + tiles[x][y].getxCoor() + " " + tiles[x][y].getyCoor(),
-                            Toast.LENGTH_SHORT).show();
-                    tiles[x][y].setType(TileType.Attacked);
-                }
-            }
-        }
     }
 
     @Override
@@ -170,6 +154,7 @@ public class BattleGroundView extends View {
         spacing = canvas.getWidth()/300;
         paddingSide = canvas.getWidth()/20;
         paddingTop = paddingSide/4;
+        //fieldSize = (canvas.getHeight() - (TILES_IN_ROW * spacing) - paddingTop )/ (TILES_IN_ROW + 7);
         fieldSize = (canvas.getWidth() - paddingSide - paddingSide - spacing*(TILES_IN_ROW -1))/ TILES_IN_ROW;
     }
 
@@ -240,13 +225,8 @@ public class BattleGroundView extends View {
                 handler.postDelayed(longPressHandle, 500);
                 break;
             case MotionEvent.ACTION_UP:
-
                 float xUp = motionEvent.getX();
                 float yUp = motionEvent.getY();
-                /*
-                findClickedField(xUp, yUp);
-                invalidate();
-                */
                 if(movingShipIndex >= 0){
                     placeShip(xUp, yUp);
                     movingShipIndex = -1;
@@ -261,7 +241,6 @@ public class BattleGroundView extends View {
                 handler.removeCallbacks(longPressHandle);
                 if(movingShipIndex >= 0) {
                     ships.get(movingShipIndex).moveToCenter(motionEvent.getX(), motionEvent.getY());
-                    //ships[movingShipIndex].moveToCenter(motionEvent.getX(), motionEvent.getY());
                     invalidate();
                 }
                 break;
@@ -298,7 +277,6 @@ public class BattleGroundView extends View {
         for(int x = 0; x < tiles.length; x++){
             for(int y = 0; y < tiles[x].length; y++) {
                 if (tiles[x][y].getTileRect().contains(xPos , yPos)) {
-                    //ships.get(movingShipIndex).moveToCenter(tile.getxPos(), tile.getyPos()+fieldSize/2);
                     ships.get(movingShipIndex).moveToCoors(x, y, tiles[x][y]);
                     ships.get(movingShipIndex).setInDock(false);
                     invalidate();
@@ -321,6 +299,7 @@ public class BattleGroundView extends View {
     public void resetShips(){
         for(int i = 0; i < ships.size(); i++){
             this.ships.get(i).moveToDefault();
+            this.ships.get(i).setInDock(true);
         }
         for(int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[x].length; y++) {
@@ -344,7 +323,42 @@ public class BattleGroundView extends View {
             }
         }
         return tiles;
-        //invalidate();
+    }
+
+    public boolean allShipsPlaced(){
+        boolean result = true;
+        for(Ship ship: ships){
+            if(ship.isInDock()){
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public boolean checkShipsOverlap(){
+        for(int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[x].length; y++) {
+                int shipsOnTile = 0;
+                for(Ship ship: ships){
+                    if(ship.getShipRect().contains(tiles[x][y].getxPos(), tiles[x][y].getyPos())){
+                        shipsOnTile++;
+                    }
+                }
+                if(shipsOnTile > 1){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int getShipsTilesCount(){
+        int count = 0;
+        for(Ship ship : ships){
+            count += ship.getLength();
+        }
+        return count;
     }
 
 }

@@ -49,7 +49,11 @@ public class Tile implements Serializable {
         this.type = type;
         this.tileBitmap = BattleGroundView.fieldBitmaps.get(type);
         if(type == TileType.Attacked){
-            GameEngine.playSound(R.raw.splash2);
+            GameEngine.playSound(R.raw.splash);
+        }
+        if(type == TileType.ShipHit){
+            GameEngine.playSound(R.raw.explosion);
+            GameEngine.vibrate(100);
         }
     }
 

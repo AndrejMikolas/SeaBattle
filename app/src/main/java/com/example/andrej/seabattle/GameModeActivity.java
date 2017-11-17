@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.andrej.seabattle.game_elements.GameData;
+import com.example.andrej.seabattle.game_elements.GameEngine;
 import com.example.andrej.seabattle.game_elements.GameType;
 
 public class GameModeActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,14 +29,12 @@ public class GameModeActivity extends AppCompatActivity implements View.OnClickL
             onBackPressed();
         }
         if(view == findViewById(R.id.button_singleDevice)){
-            //TODO: nastaviť property modu
             GameData.getInstance().game.gameType = GameType.SingleDevice;
             Intent playerModeIntent = new Intent(getApplicationContext(), PlayersActivity.class);
             startActivity(playerModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
         if(view == findViewById(R.id.button_bluetooth)){
-            //TODO: nastaviť property modu
             GameData.getInstance().game.gameType = GameType.Bluetooth;
             Intent playerModeIntent = new Intent(getApplicationContext(), PlayerModeActivity.class);
             startActivity(playerModeIntent);

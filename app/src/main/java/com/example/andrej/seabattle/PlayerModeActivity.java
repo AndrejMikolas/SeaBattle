@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.andrej.seabattle.game_elements.GameEngine;
+
 public class PlayerModeActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override

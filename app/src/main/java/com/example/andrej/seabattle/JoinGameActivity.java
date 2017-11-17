@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.andrej.seabattle.game_elements.GameEngine;
+
 public class JoinGameActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override
@@ -25,7 +27,6 @@ public class JoinGameActivity extends AppCompatActivity implements View.OnClickL
             onBackPressed();
         }
         if(view == findViewById(R.id.button_next)){
-            //TODO: dorobiť aktivitu
             Intent nearbyDevicesIntent = new Intent(getApplicationContext(), PairDeviceActivity.class);
             startActivity(nearbyDevicesIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);

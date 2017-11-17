@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.andrej.seabattle.R;
@@ -75,7 +76,6 @@ public class GameGroundView extends View {
         backgroundPaint.setColor(BACKGROUND_COLOR);
         backGroundRect = new Rect();
         loadBitmaps();
-        //invalidate();
     }
 
     /**
@@ -87,21 +87,12 @@ public class GameGroundView extends View {
             return;
         }
         calculateParameters(canvas);
-        backGroundRect.set(paddingSide,
+        backGroundRect.set(
+                paddingSide,
                 paddingTop,
                 canvas.getWidth() - paddingSide - spacing,
                 paddingTop + (TILES_IN_ROW * (fieldSize + spacing)) - spacing);
-        /*
-        GameData.getInstance().game.player1.attackGround = createFields();
-        GameData.getInstance().game.player2.attackGround = createFields();
-        if(GameData.getInstance().game.player1.onTurn){
-            setAttackTiles(GameData.getInstance().game.player1.attackGround);
-        }
-        else{
-            setAttackTiles(GameData.getInstance().game.player2.attackGround);
-        }
-        */
-        attackTiles = createFields();
+        this.attackTiles = createFields();
         postInitDone = true;
     }
 
@@ -109,14 +100,6 @@ public class GameGroundView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         postInit(canvas);
-        /*
-        if(GameData.getInstance().game.player1.onTurn){
-            setAttackTiles(GameData.getInstance().game.player1.attackGround);
-        }
-        else{
-            setAttackTiles(GameData.getInstance().game.player2.attackGround);
-        }
-        */
         canvas.drawRect(backGroundRect, backgroundPaint);
         redrawFields(canvas);
     }
@@ -141,17 +124,17 @@ public class GameGroundView extends View {
      * @param canvas    Canvas, na ktorý jednotlivé elementy vykreslí.
      */
     private void redrawFields(Canvas canvas) {
-        for(int x = 0; x < attackTiles.length; x++){
-            for(int y = 0; y < attackTiles[x].length; y++) {
+        for(int x = 0; x < this.attackTiles.length; x++){
+            for(int y = 0; y < this.attackTiles[x].length; y++) {
                 try{
-                    canvas.drawBitmap(attackTiles[x][y].getTileBitmap(), null, attackTiles[x][y].getTileRect(), null);
+                    canvas.drawBitmap(this.attackTiles[x][y].getTileBitmap(),
+                            null,
+                            this.attackTiles[x][y].getTileRect(),
+                            null);
                 }
-                catch (Exception e){
-
-                }
+                catch (Exception e){ }
             }
         }
-        //invalidate();
     }
 
     /**
@@ -163,91 +146,41 @@ public class GameGroundView extends View {
         fieldBitmaps.put(TileType.Attacked, BitmapFactory.decodeResource(getResources(), R.drawable.dot));
     }
 
-    public boolean findClickedField(float xPos, float yPos) {
+    public boolean makeAttackToField(float xPos, float yPos) {
         for(int x = 0; x < TILES_IN_ROW; x++){
             for(int y = 0; y < TILES_IN_ROW; y++) {
-                if (attackTiles[x][y].getTileRect().contains((int) xPos, (int) yPos)) {
-                    //boolean changePlayer = true;
-                    TileType type = defenseTiles[x][y].getType();
+                if (this.attackTiles[x][y].getTileRect().contains((int) xPos, (int) yPos)) {
+                    TileType type = this.defenseTiles[x][y].getType();
                     switch(type){
                         case Water:
-                            attackTiles[x][y].setType(TileType.Attacked);
-                            invalidate();
+                            if(this.attackTiles[x][y].getType() != TileType.Attacked){
+                                this.attackTiles[x][y].setType(TileType.Attacked);
+                                invalidate();
+                                return false;
+                            }
                             return true;
-                        case ShipHit:
-                            break;
+                            //break;
                         case Ship:
-                            attackTiles[x][y].setType(TileType.ShipHit);
-                            invalidate();
-                            break;
-                        case Attacked:
-                            break;
+                            if(this.attackTiles[x][y].getType() != TileType.ShipHit){
+                                this.attackTiles[x][y].setType(TileType.ShipHit);
+                                if(GameData.getInstance().game.player1.onTurn){
+                                    GameData.getInstance().game.player2.shipTilesRemaining -=1;
+                                }
+                                else {
+                                    GameData.getInstance().game.player1.shipTilesRemaining -=1;
+                                }
+                                invalidate();
+                            }
+                            return true;
+                            //break;
                         default:
                             break;
                     }
-                    break;
                 }
             }
         }
-        //invalidate();
         return false;
     }
-
-    private void handleGameLogic(boolean changePlayer) {
-        if(changePlayer){
-            //invalidate();
-            try{
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Log.d("SeaBattle", e.toString());
-            }
-            if(GameData.getInstance().game.player1.onTurn){
-                GameData.getInstance().game.player1.onTurn = false;
-                GameData.getInstance().game.player2.onTurn = true;
-                GameData.getInstance().game.player1.attackGround = getAttackTiles();
-                setAttackTiles(GameData.getInstance().game.player2.attackGround);
-                setDefenseTiles(GameData.getInstance().game.player1.defenseGround);
-            }
-            else {
-                GameData.getInstance().game.player1.onTurn = true;
-                GameData.getInstance().game.player2.onTurn = false;
-                GameData.getInstance().game.player2.attackGround = getAttackTiles();
-                setAttackTiles(GameData.getInstance().game.player1.attackGround);
-                setDefenseTiles(GameData.getInstance().game.player2.defenseGround);
-            }
-        }
-    }
-
-    /**
-     * Obstaráva dotyky a pohyby na obrazovke.
-//     * @param motionEvent
-     * @return
-     */
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent){
-
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
-            case MotionEvent.ACTION_DOWN:
-                //final float x = motionEvent.getX();
-                //final float y = motionEvent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                float xUp = motionEvent.getX();
-                float yUp = motionEvent.getY();
-                boolean changePlayer = findClickedField(xUp, yUp);
-
-                handleGameLogic(changePlayer);
-                //invalidate();
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                break;
-            case MotionEvent.ACTION_POINTER_UP:
-                break;
-        }
-        return true;
-    }
-*/
 
     @Override
     public boolean performClick(){

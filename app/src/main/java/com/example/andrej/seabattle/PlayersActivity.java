@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.example.andrej.seabattle.game_elements.Game;
 import com.example.andrej.seabattle.game_elements.GameData;
+import com.example.andrej.seabattle.game_elements.GameEngine;
 import com.example.andrej.seabattle.game_elements.Player;
 
 public class PlayersActivity extends AppCompatActivity implements View.OnClickListener{

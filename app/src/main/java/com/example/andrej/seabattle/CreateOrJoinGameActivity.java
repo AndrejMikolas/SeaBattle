@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.andrej.seabattle.game_elements.GameEngine;
+
 public class CreateOrJoinGameActivity extends AppCompatActivity implements View.OnClickListener{
 
     @Override

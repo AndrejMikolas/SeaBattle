@@ -44,12 +44,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         }
         if(view == findViewById(R.id.toggleButtonMusic)){
             GameEngine.setMusic(musicToggle.isChecked());
+            GameEngine.bounceView(view);
         }
         if(view == findViewById(R.id.toggleButtonSounds)){
             GameEngine.setSounds(soundsToggle.isChecked());
+            GameEngine.bounceView(view);
         }
         if(view == findViewById(R.id.toggleButtonVibration)){
             GameEngine.setVibrations(vibrationToggle.isChecked());
+            GameEngine.bounceView(view);
         }
     }
 }
