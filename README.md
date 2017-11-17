@@ -11,6 +11,11 @@ Vyhráva hráč, ktorému sa podarí zničiť všetky protivníkove lode.
 
 <p align="center">
   <img src="http://homel.vsb.cz/~mik0327/1.png" width="350"/>
+  <img src="http://homel.vsb.cz/~mik0327/2.png" width="350"/>
+  <img src="http://homel.vsb.cz/~mik0327/3.png" width="350"/>
+  <img src="http://homel.vsb.cz/~mik0327/4.png" width="350"/>
+  <img src="http://homel.vsb.cz/~mik0327/5.png" width="350"/>
+  <img src="http://homel.vsb.cz/~mik0327/6.png" width="350"/>
 </p>
 
 Features:
