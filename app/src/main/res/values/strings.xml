@@ -38,4 +38,7 @@
     <string name="exit_game">Exit Game</string>
     <string name="pause">Pause</string>
     <string name="game_time">Game time:</string>
+    <string name="none_found">None found</string>
+    <string name="select_device">Select device</string>
+    <string name="none_paired">None paired</string>
 </resources>

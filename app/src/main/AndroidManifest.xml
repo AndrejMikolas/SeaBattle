@@ -35,6 +35,8 @@
         <activity android:name=".PairDeviceActivity" />
         <activity android:name=".DefineBattlegroundActivity" />
         <activity android:name=".GameActivity" />
+        <activity android:name=".views.BluetoothGameActivity" />
+        <activity android:name=".BluetoothGameActivity"></activity>
     </application>
 
 </manifest>
