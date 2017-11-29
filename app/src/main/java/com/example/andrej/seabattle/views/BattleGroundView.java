@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -52,27 +53,32 @@ public class BattleGroundView extends View {
     public final Handler handler = new Handler();
     public Runnable longPressHandle;
 
-    public BattleGroundView(Context context) {
+    public BattleGroundView(Context context)
+    {
         super(context, null);
         init(null);
     }
 
-    public BattleGroundView(Context context, AttributeSet attrs) {
+    public BattleGroundView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         init(attrs);
     }
 
-    public BattleGroundView(Context context, AttributeSet attrs, int defStyle) {
+    public BattleGroundView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         init(attrs);
     }
 
-    public BattleGroundView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public BattleGroundView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }
 
-    private void init(@Nullable AttributeSet attrs) {
+    private void init(@Nullable AttributeSet attrs)
+    {
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setColor(BACKGROUND_COLOR);
         shipDockPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -94,7 +100,8 @@ public class BattleGroundView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         super.onDraw(canvas);
         postInit(canvas);
         canvas.drawRect(backGroundRect, backgroundPaint);
@@ -105,7 +112,8 @@ public class BattleGroundView extends View {
     /**
      * Načítanie súborov obrázkov do bitmapových typov a uloženie do HashMapy
      */
-    private void loadBitmaps() {
+    private void loadBitmaps()
+    {
         fieldBitmaps.put(TileType.Water, BitmapFactory.decodeResource(getResources(), R.drawable.water));
         fieldBitmaps.put(TileType.ShipHit, BitmapFactory.decodeResource(getResources(), R.drawable.cross));
         fieldBitmaps.put(TileType.Attacked, BitmapFactory.decodeResource(getResources(), R.drawable.dot));
@@ -115,7 +123,8 @@ public class BattleGroundView extends View {
     }
 
     @Override
-    public boolean performClick(){
+    public boolean performClick()
+    {
         return false;
     }
 
@@ -123,14 +132,15 @@ public class BattleGroundView extends View {
      * Vypočíta parametre, vykreslí pozadie herného poľa, doku a vytvorí políčka a lode.
      * @param canvas
      */
-    private void postInit(Canvas canvas) {
+    private void postInit(Canvas canvas)
+    {
         if(postInitDone){
             return;
         }
         calculateParameters(canvas);
         backGroundRect.set(paddingSide,
                 paddingTop,
-                canvas.getWidth() - paddingSide - spacing,
+                canvas.getWidth() - paddingSide,// - spacing,
                 paddingTop + (TILES_IN_ROW * (fieldSize + spacing)) - spacing);
         shipDockRect.set(paddingSide,
                 backGroundRect.bottom + paddingSide/2,
@@ -150,7 +160,8 @@ public class BattleGroundView extends View {
      * @param canvas    Canvas, na ktorý sa bude vykresľovať. Na základe jeho rozmerov vypočíta
      *                  parametre.
      */
-    private void calculateParameters(Canvas canvas) {
+    private void calculateParameters(Canvas canvas)
+    {
         spacing = canvas.getWidth()/300;
         paddingSide = canvas.getWidth()/20;
         paddingTop = paddingSide/4;
@@ -162,15 +173,14 @@ public class BattleGroundView extends View {
      * Prekreslí všetky elementy na hracom poli.
      * @param canvas    Canvas, na ktorý jednotlivé elementy vykreslí.
      */
-    private void redrawFields(Canvas canvas) {
+    private void redrawFields(Canvas canvas)
+    {
         for(int x = 0; x < tiles.length; x++){
             for(int y = 0; y < tiles[x].length; y++) {
                 try{
                     canvas.drawBitmap(tiles[x][y].getTileBitmap(), null, tiles[x][y].getTileRect(), null);
                 }
-                catch (Exception e){
-
-                }
+                catch (Exception e){ }
             }
         }
         for(Ship ship: ships){
@@ -181,7 +191,8 @@ public class BattleGroundView extends View {
     /**
      * Vypočíta, vytvorí a do ArrayListu uloží inštancie jednotlivých políčok na hracom poli.
      */
-    private void createFields(){
+    private void createFields()
+    {
         for(int x = 0; x < TILES_IN_ROW; x++){
             for(int y = 0; y < TILES_IN_ROW; y++){
                 Tile newTile = new Tile(
@@ -200,7 +211,8 @@ public class BattleGroundView extends View {
      * Vytvorí lode, umiestené v "doku", teda v priestore pod herným poľom, odkiaľ sa budú brať a
      * ukladať na hracie pole.
      */
-    private void createShips(){
+    private void createShips()
+    {
         ships.add(new Ship((int)(paddingSide*1.5), backGroundRect.bottom + paddingSide/2, 4, fieldSize, getContext()));
         ships.add(new Ship((int)(paddingSide*1.5), backGroundRect.bottom + paddingSide/2 + fieldSize, 3, fieldSize, getContext()));
         ships.add(new Ship((int)(paddingSide*1.5) + fieldSize*4, backGroundRect.bottom + paddingSide/2 + fieldSize, 3, fieldSize, getContext()));
@@ -215,8 +227,8 @@ public class BattleGroundView extends View {
      * @return
      */
     @Override
-    public boolean onTouchEvent(MotionEvent motionEvent){
-
+    public boolean onTouchEvent(MotionEvent motionEvent)
+    {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
             case MotionEvent.ACTION_DOWN:
                 final float x = motionEvent.getX();
@@ -254,7 +266,8 @@ public class BattleGroundView extends View {
      * @param y     Y-súradnica zaregistrovaného dotyku
      * @return      index lode v poli, na ktorú bolo kliknuté
      */
-    public int getTouchingShipIndex(float x, float y){
+    public int getTouchingShipIndex(float x, float y)
+    {
         int index = -1;
         for(int i = 0; i < ships.size(); i++){
             if(ships.get(i).getShipRect().contains((int)x, (int)y)){
@@ -270,33 +283,54 @@ public class BattleGroundView extends View {
      * @param definedX      X-súradnica, kde má byť loď umiestnená
      * @param definedY      Y-súradnica, kde má byť loď umiestnená
      */
-    private void placeShip(float definedX, float definedY){
+    private void placeShip(float definedX, float definedY)
+    {
         boolean found = false;
-        int xPos = (int)definedX-(((ships.get(movingShipIndex).getLength()-ships.get(movingShipIndex).getLength() % 2 == 0 ? 0 : 1)*fieldSize)/2);
-        int yPos = (int)definedY;//-fieldSize/2;
+        int xPos = (int)definedX;// - (((ships.get(movingShipIndex).getLength() - ships.get(movingShipIndex).getLength() % 2 == 0 ? 0 : 1)*fieldSize)/2);
+        int yPos = (int)definedY;// - fieldSize/2;
+
+        Orientation shipOrientation = ships.get(movingShipIndex).getOrientation();
         for(int x = 0; x < tiles.length; x++){
             for(int y = 0; y < tiles[x].length; y++) {
-                if (tiles[x][y].getTileRect().contains(xPos , yPos)) {
-                    ships.get(movingShipIndex).moveToCoors(x, y, tiles[x][y]);
-                    ships.get(movingShipIndex).setInDock(false);
-                    invalidate();
-                    found = true;
-                    break;
+                if (tiles[x][y].getTileRect().contains(xPos , yPos)){
+                    if(shipOrientation == Orientation.Landscape){
+                        if(x + ships.get(movingShipIndex).getLength()-1 < TILES_IN_ROW){
+                            found = true;
+                        }
+                    }
+                    else{
+                        if(y + ships.get(movingShipIndex).getLength()-1 < TILES_IN_ROW){
+                            found = true;
+                        }
+                    }
+                    if(found){
+                        Log.i("x pos", String.valueOf(x));
+                        Log.i("y pos", String.valueOf(y));
+                        ships.get(movingShipIndex).moveToCoors(x, y, tiles[x][y]);
+                        ships.get(movingShipIndex).setInDock(false);
+                        invalidate();
+                        break;
+                    }
                 }
             }
         }
-        if(!found){
-            ships.get(movingShipIndex).moveToDefault();
-            ships.get(movingShipIndex).setInDock(true);
-            invalidate();
+        if(!(found)){
+            returnMovingShipToDock();
         }
         return;
+    }
+
+    private void returnMovingShipToDock(){
+        ships.get(movingShipIndex).moveToDefault();
+        ships.get(movingShipIndex).setInDock(true);
+        invalidate();
     }
 
     /**
      * Vrátenie všetkých lodí do "doku"
      */
-    public void resetShips(){
+    public void resetShips()
+    {
         for(int i = 0; i < ships.size(); i++){
             this.ships.get(i).moveToDefault();
             this.ships.get(i).setInDock(true);
@@ -309,7 +343,8 @@ public class BattleGroundView extends View {
         invalidate();
     }
 
-    public Tile[][] getBattleGround(){
+    public Tile[][] getBattleGround()
+    {
         for(Ship ship: ships){
             if(!ship.isInDock()){
                 for(int i = 0; i < ship.getLength(); i++){
@@ -325,7 +360,8 @@ public class BattleGroundView extends View {
         return tiles;
     }
 
-    public boolean allShipsPlaced(){
+    public boolean allShipsPlaced()
+    {
         boolean result = true;
         for(Ship ship: ships){
             if(ship.isInDock()){
@@ -336,7 +372,8 @@ public class BattleGroundView extends View {
         return result;
     }
 
-    public boolean checkShipsOverlap(){
+    public boolean checkShipsOverlap()
+    {
         for(int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[x].length; y++) {
                 int shipsOnTile = 0;
@@ -353,7 +390,8 @@ public class BattleGroundView extends View {
         return true;
     }
 
-    public int getShipsTilesCount(){
+    public int getShipsTilesCount()
+    {
         int count = 0;
         for(Ship ship : ships){
             count += ship.getLength();

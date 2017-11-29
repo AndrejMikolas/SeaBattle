@@ -43,4 +43,5 @@
     <string name="none_paired">None paired</string>
     <string name="connect">Connect</string>
     <string name="waiting_opponent">Waiting for opponent</string>
+    <string name="games_history">Games history</string>
 </resources>

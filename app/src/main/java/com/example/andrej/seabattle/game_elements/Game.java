@@ -11,6 +11,7 @@ public class Game implements Serializable{
     public String gameName;
     public Player player1;
     public Player player2;
+    public String winner;
 
     public boolean onTurn;
 

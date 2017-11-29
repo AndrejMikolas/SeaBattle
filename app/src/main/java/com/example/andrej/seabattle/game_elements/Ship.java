@@ -72,13 +72,16 @@ public class Ship {
     }
 
     public void moveToCenter(float x, float y){
+        /*
         if(length%2==0){
             this.xPos = (int)x - ((length*fieldSize)/2);
         }
         else{
             this.xPos = (int)x - (((length-1)*fieldSize)/2);
         }
+        */
         this.yPos = (int) y;//-(fieldSize/2);
+        this.xPos = (int) x;
         refreshPosition();
     }
 
@@ -100,7 +103,7 @@ public class Ship {
         }
     }
 
-    public static Bitmap RotateBitmap(Bitmap source, float angle)
+    private static Bitmap RotateBitmap(Bitmap source, float angle)
     {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);

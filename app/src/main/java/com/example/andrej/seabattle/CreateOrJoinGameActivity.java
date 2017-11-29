@@ -32,7 +32,7 @@ public class CreateOrJoinGameActivity extends AppCompatActivity implements View.
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
         if(view == findViewById(R.id.button_joinGame)){
-            Intent joinGameIntent = new Intent(getApplicationContext(), JoinGameActivity.class);
+            Intent joinGameIntent = new Intent(getApplicationContext(), PairDeviceActivity.class);
             startActivity(joinGameIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }

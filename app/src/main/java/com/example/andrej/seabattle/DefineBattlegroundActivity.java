@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,8 @@ public class DefineBattlegroundActivity extends AppCompatActivity implements Vie
                 if(battleGroundView.checkShipsOverlap()){
                     Tile [][] battleGround = battleGroundView.getBattleGround();
                     if(isLastPlayer){
+                        Button startGameButton = (Button)findViewById(R.id.button_nextPlayer);
+                        startGameButton.setText("Start game");
                         GameData.getInstance().game.player2.defenseGround = battleGround;
                         GameData.getInstance().game.player2.shipTilesRemaining = battleGroundView.getShipsTilesCount();
                         Intent gameIntent= new Intent(getApplicationContext(), GameActivity.class);

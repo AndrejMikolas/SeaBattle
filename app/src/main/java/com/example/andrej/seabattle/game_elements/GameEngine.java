@@ -122,6 +122,8 @@ public class GameEngine {
         try{
             Intent bgMusic = new Intent(context, MenuMusicService.class);
             context.stopService(bgMusic);
+            bgMusic = new Intent(context, GameMusicService.class);
+            context.stopService(bgMusic);
             //menuMusicThread.stop();
             actualMusic.interrupt();
             return true;

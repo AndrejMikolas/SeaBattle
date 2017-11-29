@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(gameModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
+        if(view == findViewById(R.id.button_gamesHistory)){
+            Intent gamesHistoryIntent = new Intent(getApplicationContext(), GamesHistoryActivity.class);
+            startActivity(gamesHistoryIntent);
+            overridePendingTransition(R.transition.trans_right_in, R.transition.trans_right_out);
+        }
         if(view == findViewById(R.id.button_settings)){
             Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(settingsIntent);

@@ -9,9 +9,9 @@ import com.example.andrej.seabattle.game_elements.GameEngine;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener{
 
-    ToggleButton musicToggle;
-    ToggleButton soundsToggle;
-    ToggleButton vibrationToggle;
+    public ToggleButton mMusicToggle;
+    public ToggleButton mSoundsToggle;
+    public ToggleButton mVibrationToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +22,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void loadToggleButtons() {
-        musicToggle = (ToggleButton)findViewById(R.id.toggleButtonMusic);
-        soundsToggle = (ToggleButton)findViewById(R.id.toggleButtonSounds);
-        vibrationToggle = (ToggleButton)findViewById(R.id.toggleButtonVibration);
-        musicToggle.setChecked(GameEngine.isMusic());
-        soundsToggle.setChecked(GameEngine.isSounds());
-        vibrationToggle.setChecked(GameEngine.isVibrations());
+        mMusicToggle = (ToggleButton)findViewById(R.id.toggleButtonMusic);
+        mSoundsToggle = (ToggleButton)findViewById(R.id.toggleButtonSounds);
+        mVibrationToggle = (ToggleButton)findViewById(R.id.toggleButtonVibration);
+        mMusicToggle.setChecked(GameEngine.isMusic());
+        mSoundsToggle.setChecked(GameEngine.isSounds());
+        mVibrationToggle.setChecked(GameEngine.isVibrations());
     }
 
 
@@ -43,15 +43,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             onBackPressed();
         }
         if(view == findViewById(R.id.toggleButtonMusic)){
-            GameEngine.setMusic(musicToggle.isChecked());
+            GameEngine.setMusic(mMusicToggle.isChecked());
             GameEngine.bounceView(view);
         }
         if(view == findViewById(R.id.toggleButtonSounds)){
-            GameEngine.setSounds(soundsToggle.isChecked());
+            GameEngine.setSounds(mSoundsToggle.isChecked());
             GameEngine.bounceView(view);
         }
         if(view == findViewById(R.id.toggleButtonVibration)){
-            GameEngine.setVibrations(vibrationToggle.isChecked());
+            GameEngine.setVibrations(mVibrationToggle.isChecked());
             GameEngine.bounceView(view);
         }
     }

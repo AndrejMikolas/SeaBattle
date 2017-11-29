@@ -31,7 +31,6 @@
         <activity android:name=".SelectPlayerActivity" />
         <activity android:name=".PlayersActivity" />
         <activity android:name=".CreateOrJoinGameActivity" />
-        <activity android:name=".JoinGameActivity" />
         <activity android:name=".CreateGameActivity" />
         <activity android:name=".PairDeviceActivity" />
         <activity android:name=".DefineBattlegroundActivity" />
@@ -42,7 +41,9 @@
         <service
             android:name=".GameMusicService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".GamesHistoryActivity"></activity>
     </application>
 
 </manifest>

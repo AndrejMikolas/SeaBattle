@@ -1,7 +1,10 @@
 package com.example.andrej.seabattle;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -13,11 +16,16 @@ import com.example.andrej.seabattle.game_elements.GameData;
 import com.example.andrej.seabattle.game_elements.GameEngine;
 import com.example.andrej.seabattle.views.GameGroundView;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
     public GameGroundView gameGroundPlayer1;
     public GameGroundView gameGroundPlayer2;
     public TextView textViewPlayerName;
     public TextView textViewTimer;
+
+    private DBHelper dbHelper;
 
     public long timer = 0;
     public long startTime = 0;
@@ -39,6 +47,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        dbHelper = new DBHelper(this);
         loadViews();
         if(GameData.getInstance().game.player1.onTurn){
             textViewPlayerName.setText(GameData.getInstance().game.player1.name);
@@ -119,11 +128,57 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void checkGameFinish() {
         if(GameData.getInstance().game.player1.shipTilesRemaining == 0){
             Toast.makeText(getApplicationContext(), "player 1 win", Toast.LENGTH_LONG).show();
+            GameData.getInstance().game.winner = GameData.getInstance().game.player1.name;
+            finishGame();
         }
         if(GameData.getInstance().game.player2.shipTilesRemaining == 0){
             Toast.makeText(getApplicationContext(), "player 2 win", Toast.LENGTH_LONG).show();
+            GameData.getInstance().game.winner = GameData.getInstance().game.player2.name;
+            finishGame();
         }
+    }
 
+    private void finishGame(){
+        final Intent mainMenuIntent = new Intent(this, MainActivity.class);
+        String winner = GameData.getInstance().game.winner;
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Player "+winner+" wins")
+                .setMessage("Do you want to save this game to game history?")
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dbHelper.insert(GameData.getInstance().game.player1.name,
+                                GameData.getInstance().game.player2.name,
+                                GameData.getInstance().game.winner,
+                                Calendar.getInstance().getTime(),
+                                textViewTimer.getText().toString().
+                                        substring(10, textViewTimer.getText().toString().length()));
+                        startActivity(mainMenuIntent);
+                        overridePendingTransition(R.transition.trans_right_in, R.transition.trans_right_out);
+                    }
+                })
+                .setNegativeButton("Main menu", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(mainMenuIntent);
+                        overridePendingTransition(R.transition.trans_right_in, R.transition.trans_right_out);
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        startActivity(mainMenuIntent);
+                        overridePendingTransition(R.transition.trans_right_in, R.transition.trans_right_out);
+                    }
+                })
+                .setIcon(R.mipmap.missile)
+                .setCancelable(false)
+                .show();
     }
 
     private void handleGameLogic(boolean attackSuccessful) {
@@ -167,6 +222,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view == findViewById(R.id.button_settings)){
+            stopTimer();
             Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(settingsIntent);
             overridePendingTransition(R.transition.trans_bottom_in, R.transition.trans_bottom_out);
