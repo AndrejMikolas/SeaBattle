@@ -1,12 +1,14 @@
 package com.example.andrej.seabattle;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.ParcelUuid;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,11 +20,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andrej.seabattle.bluetooth_services.SampleConnectionCallback;
+import com.example.andrej.seabattle.bluetooth_services.SampleConnectionFailedListener;
+import com.example.andrej.seabattle.bluetooth_services.SampleDataCallback;
+import com.example.andrej.seabattle.bluetooth_services.SampleDataSentCallback;
+import com.newtronlabs.easybluetooth.BluetoothClient;
+import com.newtronlabs.easybluetooth.IBluetoothClient;
+
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
+import java.util.UUID;
+
 
 public class PairDeviceActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int REQUEST_ENABLE_BT = 0;
+    private static final String NAME = "SeaBattle";
+    private static final String APP_UUID = "53168060-cfc5-11e7-8f1a-0800200c9a66";
+    private static final int REQUEST_ENABLE_BT = 1;
     /*
         ArrayAdapter<String> listAdapter;
         Button searchButton;
@@ -34,17 +47,36 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
         BroadcastReceiver receiver;
     */
     // Return Intent extra
+
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
     private BluetoothAdapter mBtAdapter;
     //private ArrayAdapter mPairedDevicesArrayAdapter;
     private ArrayAdapter mBtDevicesAdapter;
     private ArrayList<BluetoothDevice> mBtDevices;
 
+    //private SmoothBluetooth mSmoothBluetooth;
+    private List<Integer> mBuffer = new ArrayList<>();
+    private List<String> mResponseBuffer = new ArrayList<>();
+    private ArrayAdapter<String> mResponseAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pair_device);
         setResult(Activity.RESULT_CANCELED);
+
+        /*
+        mSmoothBluetooth = new SmoothBluetooth(this);
+        mSmoothBluetooth.setListener(mListener);
+
+        mBtDevices = new ArrayList<>();
+        mBtDevicesAdapter = new ArrayAdapter(this, R.layout.device_name);
+        ListView btDevicesListView = (ListView) findViewById(R.id.listView_nearbyDevices);
+        btDevicesListView.setAdapter(mBtDevicesAdapter);
+        btDevicesListView.setOnItemClickListener(mDeviceClickListener);
+        */
+
+
         mBtDevices = new ArrayList<>();
         mBtDevicesAdapter = new ArrayAdapter(this, R.layout.device_name);
         ListView btDevicesListView = (ListView) findViewById(R.id.listView_nearbyDevices);
@@ -78,6 +110,98 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
         */
     }
 
+  /*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSmoothBluetooth.stop();
+    }
+
+    private SmoothBluetooth.Listener mListener = new SmoothBluetooth.Listener() {
+        @Override
+        public void onBluetoothNotSupported() {
+            Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onBluetoothNotEnabled() {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+
+        @Override
+        public void onConnecting(Device device) {
+            setSearchStatus("Connecting to " + device.getName(), true);
+        }
+
+        @Override
+        public void onConnected(Device device) {
+            setSearchStatus("Connected to " + device.getName(), false);
+        }
+
+        @Override
+        public void onDisconnected() {
+
+        }
+
+        @Override
+        public void onConnectionFailed(Device device) {
+            Toast.makeText(getApplicationContext(), "Connection failed", Toast.LENGTH_SHORT).show();
+            setSearchStatus("", false);
+        }
+
+        @Override
+        public void onDiscoveryStarted() {
+            setSearchStatus("Searching", true);
+        }
+
+        @Override
+        public void onDiscoveryFinished() {
+            setSearchStatus("Searching complete", false);
+        }
+
+        @Override
+        public void onNoDevicesFound() {
+            setSearchStatus("None found", false);
+        }
+
+        @Override
+        public void onDevicesFound(final List<Device> deviceList, final SmoothBluetooth.ConnectionCallback connectionCallback) {
+            final DialogFragment dialog = new DialogFragment().Builder(PairDeviceActivity.this)
+                    .title("Devices")
+                    .adapter(new DevicesAdapter(MainActivity.this, deviceList))
+                    .build();
+
+            ListView listView = dialog.getListView();
+            if (listView != null) {
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        connectionCallback.connectTo(deviceList.get(position));
+                        dialog.dismiss();
+                    }
+
+                });
+            }
+        }
+
+        @Override
+        public void onDataReceived(int data) {
+
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_CANCELED){
+            Toast.makeText(this, "Bluetooth is required", Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+*/
+
+
     public void refresh(){
         if (!mBtAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -87,7 +211,6 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
         else {
             doDiscovery();
         }
-
     }
 
     @Override
@@ -133,19 +256,46 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
             BluetoothDevice device =  mBtDevices.get(arg2);//      getItem(arg2);
             Toast.makeText(getApplicationContext(), device.getAddress(), Toast.LENGTH_SHORT).show();
             // Get the device MAC address, which is the last 17 chars in the View
+            // Find the server Bluetooth device.
+            BluetoothDevice serverDev = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(device.getAddress());
+            IBluetoothClient client = new BluetoothClient.Builder(getApplicationContext(), serverDev, ParcelUuid.fromString(APP_UUID))
+                    // We want to be notified when connection completes.
+                    .setConnectionCallback(new SampleConnectionCallback())
+                    // Let's also get notified if it fails
+                    .setConnectionFailedListener(new SampleConnectionFailedListener())
+                    // Receive data from the server
+                    .setDataCallback(new SampleDataCallback())
+                    // Be notified when the data is sent to the server or fails to send.
+                    .setDataSentCallback(new SampleDataSentCallback())
+                    .build();
 
-            /*
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
+// Connect to server
+            client.connect();
+
+            client.setConnectionCallback(new SampleConnectionCallback(){
+                @Override
+                public void onConnected(IBluetoothClient bluetoothClient) {
+                    super.onConnected(bluetoothClient);
+                }
+
+                @Override
+                public void onConnectionSuspended(IBluetoothClient bluetoothClient, int reason) {
+                    super.onConnectionSuspended(bluetoothClient, reason);
+                }
+            } );
+            //SampleDataCallback dataCallback = new SampleDataCallback(getApplicationContext());
+            //dataCallback.onDataReceived();
+            //String info = ((TextView) v).getText().toString();
+            //String address = info.substring(info.length() - 17);
             // Create the result Intent and include the MAC address
-            */
-            /*
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+
+
+            //Intent intent = new Intent();
+            //intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
             // Set result and finish this Activity
-            setResult(Activity.RESULT_OK, intent);
-            finish();
-            */
+            //setResult(Activity.RESULT_OK, intent);
+            //finish();
+
         }
     };
 
@@ -157,6 +307,7 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 mBtDevices.add(device);
                 mBtDevicesAdapter.add(device.getName());
+                Log.i("XXXXXXNewdevice", device.getName());
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 setSearchStatus("Search finished", false);
                 if (mBtDevicesAdapter.getCount() == 0) {
@@ -169,8 +320,25 @@ public class PairDeviceActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if(view == findViewById(R.id.button_back)){
-            super.onBackPressed();
-            overridePendingTransition(R.transition.trans_bottom_in, R.transition.trans_bottom_out);
+            //super.onBackPressed();
+            //overridePendingTransition(R.transition.trans_bottom_in, R.transition.trans_bottom_out);
+            try{
+                BluetoothDevice serverDev = BluetoothAdapter.getDefaultAdapter().getRemoteDevice("34:4D:F7:E2:98:8C");
+                IBluetoothClient client = new BluetoothClient.Builder(getApplicationContext(), serverDev, ParcelUuid.fromString(APP_UUID))
+                        // We want to be notified when connection completes.
+                        .setConnectionCallback(new SampleConnectionCallback())
+                        // Let's also get notified if it fails
+                        .setConnectionFailedListener(new SampleConnectionFailedListener())
+                        // Receive data from the server
+                        .setDataCallback(new SampleDataCallback())
+                        // Be notified when the data is sent to the server or fails to send.
+                        .setDataSentCallback(new SampleDataSentCallback())
+                        .build();
+
+// Connect to server
+                client.connect();
+            } catch (Exception e){}
+
         }
         if(view == findViewById(R.id.button_searchNearby)){
             refresh();

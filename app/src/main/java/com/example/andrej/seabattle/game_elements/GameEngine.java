@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.example.andrej.seabattle.GameMusicService;
 import com.example.andrej.seabattle.MenuMusicService;
 import com.example.andrej.seabattle.MyBounceInterpolator;
 import com.example.andrej.seabattle.R;
@@ -22,12 +22,13 @@ import java.util.HashMap;
 
 public class GameEngine {
     public static final int MENU_MUSIC = R.raw.menu_music;
+    public static final int GAME_MUSIC = R.raw.game_music;
+    public static final int GAME_OVER_MUSIC = R.raw.game_over_music;
     public static final int MUSIC_VOLUME = 100;
     public static final boolean LOOP_MENU_MUSIC = true;
     public static Context context;
-    public static Thread musicThread;
     public static MediaPlayer mediaPlayer;
-
+    public static Thread actualMusic;
 
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
@@ -37,16 +38,43 @@ public class GameEngine {
     private static boolean vibrations;
 
     public static HashMap<TileType, Integer> bitmaps = new HashMap<>();
+
+    public static Thread menuMusicThread = new Thread(){
+        public void run(){
+            Intent bgMusic = new Intent(context, MenuMusicService.class);
+            context.startService(bgMusic);
+        }
+    };
+    public static Thread gameMusicThread = new Thread(){
+        public void run(){
+            Intent bgMusic = new Intent(context, GameMusicService.class);
+            context.startService(bgMusic);
+        }
+    };
+    public static Thread gameOverMusicThread = new Thread(){
+        public void run(){
+            Intent bgMusic = new Intent(context, MenuMusicService.class);
+            context.startService(bgMusic);
+        }
+    };
+
     static{
         bitmaps.put(TileType.Water, R.drawable.water);
         bitmaps.put(TileType.Attacked, R.drawable.cross);
+        actualMusic = menuMusicThread;
+    }
+
+    public static void loadSettings(){
+        setMusic(sharedPreferences.getBoolean("music", true));
+        sounds = sharedPreferences.getBoolean("sounds", true);
+        vibrations = sharedPreferences.getBoolean("vibration", true);
     }
 
 
-    public static void loadSettings(){
-        music = sharedPreferences.getBoolean("music", true);
-        sounds = sharedPreferences.getBoolean("sounds", true);
-        vibrations = sharedPreferences.getBoolean("vibration", true);
+    public static void setActualMusic(Thread actualMusic) {
+        stopMusic();
+        GameEngine.actualMusic = actualMusic;
+        setMusic(music);
     }
 
     public static boolean isMusic() {
@@ -58,6 +86,14 @@ public class GameEngine {
         editor = sharedPreferences.edit();
         editor.putBoolean("music", music);
         editor.apply();
+        if(music){
+            if(!actualMusic.isAlive()){
+                actualMusic.start();
+            }
+        }
+        else {
+            stopMusic();
+        }
     }
 
     public static boolean isSounds() {
@@ -82,12 +118,12 @@ public class GameEngine {
         editor.apply();
     }
 
-    public static boolean onExit(){
+    public static boolean stopMusic(){
         try{
             Intent bgMusic = new Intent(context, MenuMusicService.class);
             context.stopService(bgMusic);
-            //musicThread.stop();
-            musicThread.interrupt();
+            //menuMusicThread.stop();
+            actualMusic.interrupt();
             return true;
         }
         catch(Exception e){

@@ -65,6 +65,7 @@ public class DefineBattlegroundActivity extends AppCompatActivity implements Vie
                         Intent gameIntent= new Intent(getApplicationContext(), GameActivity.class);
                         startActivity(gameIntent);
                         overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+                        GameEngine.setActualMusic(GameEngine.gameMusicThread);
                     }
                     else{
                         GameData.getInstance().game.player1.defenseGround = battleGround;

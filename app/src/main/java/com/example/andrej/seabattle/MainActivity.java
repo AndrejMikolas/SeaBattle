@@ -17,17 +17,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         GameEngine.sharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+        GameEngine.context = getApplicationContext();
+        GameEngine.setActualMusic(GameEngine.menuMusicThread);
         GameEngine.loadSettings();
-
-        GameEngine.musicThread = new Thread(){
-            public void run(){
-                Intent bgMusic = new Intent(getApplicationContext(), MenuMusicService.class);
-                startService(bgMusic);
-                GameEngine.context = getApplicationContext();
-            }
-        };
-        GameEngine.musicThread.start();
-
     }
 
     @Override
@@ -37,11 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent gameModeIntent = new Intent(getApplicationContext(), GameModeActivity.class);
             startActivity(gameModeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
-            GameEngine.onExit();
         }
         if(view == findViewById(R.id.button_settings)){
             Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-            //settingsIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             startActivity(settingsIntent);
             overridePendingTransition(R.transition.trans_bottom_in, R.transition.trans_bottom_out);
         }
@@ -55,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-        GameEngine.onExit();
+        GameEngine.stopMusic();
         this.finishAffinity();
     }
 

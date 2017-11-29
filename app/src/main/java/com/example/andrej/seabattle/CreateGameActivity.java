@@ -1,5 +1,6 @@
 package com.example.andrej.seabattle;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,9 +28,9 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         }
         if(view == findViewById(R.id.button_next)){
             //TODO: dorobiť aktivitu
-            //Intent newPlayerIntent = new Intent(getApplicationContext(), NewPlayerActivity.class);
-            //startActivity(newPlayerIntent);
-            //overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+            Intent waitingOpponentIntent = new Intent(getApplicationContext(), WaitingOpponentActivity.class);
+            startActivity(waitingOpponentIntent);
+            overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
         /*
         if(view == findViewById(R.id.button_joinGame)){

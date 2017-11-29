@@ -36,8 +36,12 @@ public class GameModeActivity extends AppCompatActivity implements View.OnClickL
         }
         if(view == findViewById(R.id.button_bluetooth)){
             GameData.getInstance().game.gameType = GameType.Bluetooth;
+            /*
             Intent playerModeIntent = new Intent(getApplicationContext(), PlayerModeActivity.class);
             startActivity(playerModeIntent);
+            */
+            Intent btGameTypeIntent = new Intent(getApplicationContext(), CreateOrJoinGameActivity.class);
+            startActivity(btGameTypeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
     }
