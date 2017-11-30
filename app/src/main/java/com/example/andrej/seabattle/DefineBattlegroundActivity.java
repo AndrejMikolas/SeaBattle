@@ -25,6 +25,10 @@ public class DefineBattlegroundActivity extends AppCompatActivity implements Vie
         setContentView(R.layout.activity_define_battleground);
         battleGroundView = (BattleGroundView)findViewById(R.id.battleGround);
         isLastPlayer = getIntent().getBooleanExtra("isLastPlayer", false);
+        if(isLastPlayer){
+            Button startGameButton = (Button)findViewById(R.id.button_nextPlayer);
+            startGameButton.setText("Start game");
+        }
         setPlayerName();
     }
 
@@ -61,8 +65,6 @@ public class DefineBattlegroundActivity extends AppCompatActivity implements Vie
                 if(battleGroundView.checkShipsOverlap()){
                     Tile [][] battleGround = battleGroundView.getBattleGround();
                     if(isLastPlayer){
-                        Button startGameButton = (Button)findViewById(R.id.button_nextPlayer);
-                        startGameButton.setText("Start game");
                         GameData.getInstance().game.player2.defenseGround = battleGround;
                         GameData.getInstance().game.player2.shipTilesRemaining = battleGroundView.getShipsTilesCount();
                         Intent gameIntent= new Intent(getApplicationContext(), GameActivity.class);

@@ -44,4 +44,7 @@
     <string name="connect">Connect</string>
     <string name="waiting_opponent">Waiting for opponent</string>
     <string name="games_history">Games history</string>
+    <string name="sample_text">Sample text</string>
+    <string name="goto_github">Go to GitHub website</string>
+    <string name="author_info">Author: Andrej Mikoláš</string>
 </resources>

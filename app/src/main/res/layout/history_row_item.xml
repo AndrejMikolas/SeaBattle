@@ -32,6 +32,7 @@
                     android:id="@+id/textView_players"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/sample_text"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -47,13 +48,15 @@
                     android:id="@+id/textView_winner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/sample_text"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textView_gameDate"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="30dp"
+                    android:text="@string/sample_text"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -65,6 +68,7 @@
             android:layout_height="match_parent"
             android:gravity="right|center"
             android:paddingEnd="10dp"
+            android:text="@string/sample_text"
             android:textAlignment="viewEnd"
             android:textSize="24sp"
             android:textStyle="bold" />

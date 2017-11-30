@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.andrej.seabattle.game_elements.GameData;
 import com.example.andrej.seabattle.game_elements.GameEngine;
@@ -35,14 +36,15 @@ public class GameModeActivity extends AppCompatActivity implements View.OnClickL
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
         }
         if(view == findViewById(R.id.button_bluetooth)){
-            GameData.getInstance().game.gameType = GameType.Bluetooth;
+            Toast.makeText(getApplicationContext(),
+                    "Sorry, Bluetooth mode is not supported now",
+                    Toast.LENGTH_LONG).show();
             /*
-            Intent playerModeIntent = new Intent(getApplicationContext(), PlayerModeActivity.class);
-            startActivity(playerModeIntent);
-            */
+            GameData.getInstance().game.gameType = GameType.Bluetooth;
             Intent btGameTypeIntent = new Intent(getApplicationContext(), CreateOrJoinGameActivity.class);
             startActivity(btGameTypeIntent);
             overridePendingTransition(R.transition.trans_left_in, R.transition.trans_left_out);
+            */
         }
     }
 }

@@ -223,4 +223,8 @@ public class GameGroundView extends View {
         this.attackTiles = attackTiles;
         invalidate();
     }
+
+    public Rect getBackGroundRect() {
+        return backGroundRect;
+    }
 }

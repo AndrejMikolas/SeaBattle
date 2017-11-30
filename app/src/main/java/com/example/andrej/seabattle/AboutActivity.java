@@ -1,5 +1,7 @@
 package com.example.andrej.seabattle;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,10 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         if(view == findViewById(R.id.button_back)){
             onBackPressed();
+        }
+        if(view == findViewById(R.id.button_github)){
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AndrejMikolas/SeaBattle"));
+            startActivity(browserIntent);
         }
     }
 }

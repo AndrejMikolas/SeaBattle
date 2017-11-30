@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -49,21 +50,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
         dbHelper = new DBHelper(this);
         loadViews();
+        Log.i("player 1 on turn", String.valueOf(GameData.getInstance().game.player1.onTurn));
+        Log.i("player 2 on turn", String.valueOf(GameData.getInstance().game.player2.onTurn));
         if(GameData.getInstance().game.player1.onTurn){
             textViewPlayerName.setText(GameData.getInstance().game.player1.name);
-            gameGroundPlayer2.animate()
-                    .translationX(gameGroundPlayer2.canvasWidth)
-                    .alpha(0.0f)
-                    .setDuration(500);
-            Toast.makeText(getApplicationContext(), "player 1 turn", Toast.LENGTH_LONG).show();
         }
         else{
             textViewPlayerName.setText(GameData.getInstance().game.player2.name);
-            gameGroundPlayer1.animate()
-                    .translationX(gameGroundPlayer1.canvasWidth)
-                    .alpha(0.0f)
-                    .setDuration(500);
-            Toast.makeText(getApplicationContext(), "player 2 turn", Toast.LENGTH_LONG).show();
         }
         setGrounds();
         setGameGroundListeners();
@@ -97,15 +90,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setGameGroundListeners() {
+        Log.i("listen player 1 on turn", String.valueOf(GameData.getInstance().game.player1.onTurn));
+        Log.i("listen player 2 on turn", String.valueOf(GameData.getInstance().game.player2.onTurn));
         gameGroundPlayer1.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(GameData.getInstance().game.player1.onTurn){
                     float x = motionEvent.getX();
                     float y = motionEvent.getY();
-                    boolean attackSuccessful = gameGroundPlayer1.makeAttackToField(x, y);
-                    //checkGameFinish();
-                    handleGameLogic(attackSuccessful);
+                    if(gameGroundPlayer1.getBackGroundRect().contains((int) x, (int) y)){
+                        boolean attackSuccessful = gameGroundPlayer1.makeAttackToField(x, y);
+                        handleGameLogic(attackSuccessful);
+                    }
                 }
                 return false;
             }
@@ -116,9 +112,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if(GameData.getInstance().game.player2.onTurn){
                     float x = motionEvent.getX();
                     float y = motionEvent.getY();
-                    boolean attackSuccessful = gameGroundPlayer2.makeAttackToField(x, y);
-                    //checkGameFinish();
-                    handleGameLogic(attackSuccessful);
+                    if(gameGroundPlayer2.getBackGroundRect().contains((int) x, (int) y)){
+                        boolean attackSuccessful = gameGroundPlayer2.makeAttackToField(x, y);
+                        handleGameLogic(attackSuccessful);
+                    }
                 }
                 return false;
             }
@@ -127,18 +124,19 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkGameFinish() {
         if(GameData.getInstance().game.player1.shipTilesRemaining == 0){
-            Toast.makeText(getApplicationContext(), "player 1 win", Toast.LENGTH_LONG).show();
-            GameData.getInstance().game.winner = GameData.getInstance().game.player1.name;
+            Toast.makeText(getApplicationContext(), "player 2 win", Toast.LENGTH_LONG).show();
+            GameData.getInstance().game.winner = GameData.getInstance().game.player2.name;
             finishGame();
         }
         if(GameData.getInstance().game.player2.shipTilesRemaining == 0){
             Toast.makeText(getApplicationContext(), "player 2 win", Toast.LENGTH_LONG).show();
-            GameData.getInstance().game.winner = GameData.getInstance().game.player2.name;
+            GameData.getInstance().game.winner = GameData.getInstance().game.player1.name;
             finishGame();
         }
     }
 
     private void finishGame(){
+        stopTimer();
         final Intent mainMenuIntent = new Intent(this, MainActivity.class);
         String winner = GameData.getInstance().game.winner;
         AlertDialog.Builder builder;
@@ -217,6 +215,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         //gameGroundPlayer1.invalidate();
         //gameGroundPlayer2.invalidate();
+        Log.i("after player 1 on turn", String.valueOf(GameData.getInstance().game.player1.onTurn));
+        Log.i("after player 2 on turn", String.valueOf(GameData.getInstance().game.player2.onTurn));
     }
 
     @Override

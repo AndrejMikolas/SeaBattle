@@ -114,12 +114,13 @@
         <com.example.andrej.seabattle.views.GameGroundView
             android:id="@+id/gameGroundPlayer2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:translationX="1000dp" />
 
         <com.example.andrej.seabattle.views.GameGroundView
             android:id="@+id/gameGroundPlayer1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
     </FrameLayout>
 
     <LinearLayout
