@@ -16,34 +16,34 @@
         android:theme="@style/AppTheme">
         <service android:name=".MenuMusicService" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameModeActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".PlayerModeActivity" />
-        <activity android:name=".NewPlayerActivity" />
-        <activity android:name=".SelectPlayerActivity" />
-        <activity android:name=".PlayersActivity" />
-        <activity android:name=".CreateOrJoinGameActivity" />
-        <activity android:name=".CreateGameActivity" />
-        <activity android:name=".PairDeviceActivity" />
-        <activity android:name=".DefineBattlegroundActivity" />
-        <activity android:name=".GameActivity" />
-        <activity android:name=".BluetoothGameActivity" />
-        <activity android:name=".WaitingOpponentActivity" />
+        <activity android:name=".GameModeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".SettingsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".AboutActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".PlayerModeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".NewPlayerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".SelectPlayerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".PlayersActivity" android:screenOrientation="portrait" />
+        <activity android:name=".CreateOrJoinGameActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".CreateGameActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".PairDeviceActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".DefineBattlegroundActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".GameActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".BluetoothGameActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".WaitingOpponentActivity" android:screenOrientation="portrait"/>
 
         <service
             android:name=".GameMusicService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".GamesHistoryActivity"></activity>
+        <activity android:name=".GamesHistoryActivity"/>
     </application>
 
 </manifest>

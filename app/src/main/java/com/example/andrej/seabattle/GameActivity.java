@@ -50,8 +50,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
         dbHelper = new DBHelper(this);
         loadViews();
-        Log.i("player 1 on turn", String.valueOf(GameData.getInstance().game.player1.onTurn));
-        Log.i("player 2 on turn", String.valueOf(GameData.getInstance().game.player2.onTurn));
         if(GameData.getInstance().game.player1.onTurn){
             textViewPlayerName.setText(GameData.getInstance().game.player1.name);
         }
@@ -90,8 +88,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setGameGroundListeners() {
-        Log.i("listen player 1 on turn", String.valueOf(GameData.getInstance().game.player1.onTurn));
-        Log.i("listen player 2 on turn", String.valueOf(GameData.getInstance().game.player2.onTurn));
         gameGroundPlayer1.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -124,12 +120,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkGameFinish() {
         if(GameData.getInstance().game.player1.shipTilesRemaining == 0){
-            Toast.makeText(getApplicationContext(), "player 2 win", Toast.LENGTH_LONG).show();
             GameData.getInstance().game.winner = GameData.getInstance().game.player2.name;
             finishGame();
         }
         if(GameData.getInstance().game.player2.shipTilesRemaining == 0){
-            Toast.makeText(getApplicationContext(), "player 2 win", Toast.LENGTH_LONG).show();
             GameData.getInstance().game.winner = GameData.getInstance().game.player1.name;
             finishGame();
         }
@@ -184,7 +178,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             checkGameFinish();
             return;
         }
-        //Toast.makeText(getApplicationContext(), "change player", Toast.LENGTH_LONG).show();
         if(GameData.getInstance().game.player1.onTurn){
             GameData.getInstance().game.player1.onTurn = false;
             GameData.getInstance().game.player2.onTurn = true;
@@ -213,10 +206,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     .alpha(1.0f)
                     .setDuration(500);
         }
-        //gameGroundPlayer1.invalidate();
-        //gameGroundPlayer2.invalidate();
-        Log.i("after player 1 on turn", String.valueOf(GameData.getInstance().game.player1.onTurn));
-        Log.i("after player 2 on turn", String.valueOf(GameData.getInstance().game.player2.onTurn));
     }
 
     @Override
@@ -247,6 +236,4 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         startTimer();
     }
-
-
 }

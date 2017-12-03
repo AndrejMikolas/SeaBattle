@@ -159,7 +159,6 @@ public class GameGroundView extends View {
                                 return false;
                             }
                             return true;
-                            //break;
                         case Ship:
                             if(this.attackTiles[x][y].getType() != TileType.ShipHit){
                                 this.attackTiles[x][y].setType(TileType.ShipHit);
@@ -172,14 +171,13 @@ public class GameGroundView extends View {
                                 invalidate();
                             }
                             return true;
-                            //break;
                         default:
                             break;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     @Override
